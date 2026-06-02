@@ -4,4 +4,4 @@
 //  Get one at: https://aistudio.google.com
 // ─────────────────────────────────────────────
 
-window.GEMINI_API_KEY = 'AQ.Ab8RN6JJq2Iw9xoCSz2UDychw_bxd7xnWNCA7G7zg0O0Zd1AJg';
+window.GEMINI_API_KEY = 'AIzaSyDlmWsDDKmUktAcx3Aj-E2-I-UAU0EFs3k';
