@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz — Britannia Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: {
+  fontFamily: { serif: ['"Instrument Serif"','Georgia','serif'], sans: ['"Work Sans"','system-ui','sans-serif'] },
+  colors: {
+    background: 'oklch(0.05 0 0)', foreground: 'oklch(0.92 0 0)',
+    card: 'oklch(0.08 0 0)', 'card-foreground': 'oklch(0.92 0 0)',
+    muted: { DEFAULT: 'oklch(0.14 0 0)', foreground: 'oklch(0.55 0 0)' },
+    border: 'oklch(0.18 0 0)',
+    gold: { DEFAULT: 'oklch(0.72 0.12 85)' },
+  },
+}}};
+</script>
+<style>
+  body{background:oklch(0.05 0 0);color:oklch(0.92 0 0);font-family:"Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,h5,h6{font-family:"Instrument Serif",Georgia,serif;font-weight:400;}
+
+  .era-card {
+    border: 1px solid oklch(0.18 0 0);
+    background: oklch(0.08 0 0);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.22s;
+    position: relative;
+    overflow: hidden;
+  }
+  .era-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.22s;
+    background: oklch(0.72 0.12 85 / 0.06);
+  }
+  .era-card:hover { border-color: oklch(0.72 0.12 85 / 0.5); transform: translateY(-2px); }
+  .era-card:hover::before { opacity: 1; }
+
+  .option-btn {
+    border: 1px solid oklch(0.18 0 0);
+    background: oklch(0.08 0 0);
+    color: oklch(0.75 0 0);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    font-family: "Work Sans", sans-serif;
+    width: 100%;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: oklch(0.72 0.12 85 / 0.5);
+    background: oklch(0.72 0.12 85 / 0.07);
+    color: oklch(0.88 0 0);
+  }
+  .option-btn.correct {
+    border-color: oklch(0.65 0.15 145);
+    background: oklch(0.65 0.15 145 / 0.12);
+    color: oklch(0.80 0.12 145);
+  }
+  .option-btn.wrong {
+    border-color: oklch(0.55 0.18 25);
+    background: oklch(0.55 0.18 25 / 0.10);
+    color: oklch(0.70 0.14 25);
+  }
+  .option-btn:disabled { cursor: default; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  .fade-up { animation: fadeUp 0.35s ease both; }
+
+  .progress-bar { transition: width 0.5s ease; }
+
+  #score-ring {
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    transition: stroke-dashoffset 1s ease;
+    transform-origin: center;
+    transform: rotate(-90deg);
+  }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-xl font-serif tracking-tight text-foreground">Britannia</span>
+        <span class="text-gold text-xs font-sans tracking-widest uppercase">Archive</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Home</a>
+        <a href="medieval.html" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Medieval</a>
+        <a href="tudor-stuart.html" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Tudor & Stuart</a>
+        <a href="georgian-victorian.html" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Georgian & Victorian</a>
+        <a href="modern.html" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Modern</a>
+        <a href="timeline.html" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Timeline</a>
+      </nav>
+      <div class="flex md:hidden">
+        <button id="mobile-menu-btn" type="button" class="text-muted-foreground hover:text-foreground">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+    <div class="space-y-1 px-4 pb-6 pt-3">
+      <a href="index.html" class="block rounded-md py-2 px-3 text-base font-medium hover:bg-card">Home</a>
+      <a href="medieval.html" class="block rounded-md py-2 px-3 text-base font-medium hover:bg-card">Medieval</a>
+      <a href="tudor-stuart.html" class="block rounded-md py-2 px-3 text-base font-medium hover:bg-card">Tudor & Stuart</a>
+      <a href="georgian-victorian.html" class="block rounded-md py-2 px-3 text-base font-medium hover:bg-card">Georgian & Victorian</a>
+      <a href="modern.html" class="block rounded-md py-2 px-3 text-base font-medium hover:bg-card">Modern</a>
+      <a href="timeline.html" class="block rounded-md py-2 px-3 text-base font-medium hover:bg-card">Timeline</a>
+    </div>
+  </div>
+</header>
+
+<main class="pt-16 min-h-screen">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 py-20">
+
+    <!-- ── SCREEN 1: Era selection ── -->
+    <div id="screen-select">
+      <div class="text-center mb-12">
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-3">Test Your Knowledge</p>
+        <h1 class="text-4xl sm:text-5xl font-serif text-foreground">History Quiz</h1>
+        <p class="mt-3 text-muted-foreground text-sm">Choose an era to begin. Questions are generated from the archive.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="era-card p-6 fade-up" data-era="Medieval" style="animation-delay:0.05s" onclick="startQuiz('Medieval')">
+          <div class="text-3xl mb-3">⚔️</div>
+          <h3 class="font-serif text-xl text-foreground mb-1">Medieval Britain</h3>
+          <p class="text-sm text-muted-foreground">1066 – 1485 · Norman Conquest to the Wars of the Roses</p>
+          <p class="text-xs text-gold mt-4 font-sans">Begin →</p>
+        </div>
+        <div class="era-card p-6 fade-up" data-era="Tudor" style="animation-delay:0.1s" onclick="startQuiz('Tudor')">
+          <div class="text-3xl mb-3">👑</div>
+          <h3 class="font-serif text-xl text-foreground mb-1">Tudor & Stuart</h3>
+          <p class="text-sm text-muted-foreground">1485 – 1714 · Reformation to the Glorious Revolution</p>
+          <p class="text-xs text-gold mt-4 font-sans">Begin →</p>
+        </div>
+        <div class="era-card p-6 fade-up" data-era="Georgian" style="animation-delay:0.15s" onclick="startQuiz('Georgian')">
+          <div class="text-3xl mb-3">⚙️</div>
+          <h3 class="font-serif text-xl text-foreground mb-1">Georgian & Victorian</h3>
+          <p class="text-sm text-muted-foreground">1714 – 1901 · Empire, Industry & Reform</p>
+          <p class="text-xs text-gold mt-4 font-sans">Begin →</p>
+        </div>
+        <div class="era-card p-6 fade-up" data-era="Modern" style="animation-delay:0.2s" onclick="startQuiz('Modern')">
+          <div class="text-3xl mb-3">🏛️</div>
+          <h3 class="font-serif text-xl text-foreground mb-1">Modern Britain</h3>
+          <p class="text-sm text-muted-foreground">1901 – present · Wars, Welfare & the Contemporary Age</p>
+          <p class="text-xs text-gold mt-4 font-sans">Begin →</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 2: Loading ── -->
+    <div id="screen-loading" class="hidden text-center py-32">
+      <div class="w-10 h-10 border-2 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-6"></div>
+      <p class="font-serif text-2xl text-foreground mb-2">Consulting the Archive…</p>
+      <p class="text-sm text-muted-foreground">Generating your quiz questions</p>
+    </div>
+
+    <!-- ── SCREEN 3: Quiz ── -->
+    <div id="screen-quiz" class="hidden">
+      <!-- Progress -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-2">
+          <span id="quiz-era-label" class="text-gold text-xs font-sans uppercase tracking-[0.3em]"></span>
+          <span id="quiz-progress-text" class="text-xs text-muted-foreground"></span>
+        </div>
+        <div class="h-1 bg-muted rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="progress-bar h-full bg-gold rounded-full" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Question -->
+      <div id="question-card" class="fade-up">
+        <h2 id="question-text" class="font-serif text-2xl sm:text-3xl text-foreground leading-snug mb-8"></h2>
+        <div id="options-grid" class="space-y-3"></div>
+
+        <!-- Explanation -->
+        <div id="explanation-box" class="hidden mt-6 p-4 border border-gold/20 bg-gold/5 rounded-lg">
+          <p class="text-xs text-gold font-sans uppercase tracking-widest mb-2">Historical Context</p>
+          <p id="explanation-text" class="text-sm text-muted-foreground leading-relaxed"></p>
+        </div>
+
+        <div class="flex justify-between items-center mt-8">
+          <div id="feedback-text" class="text-sm font-medium"></div>
+          <button id="next-btn" class="hidden text-sm text-gold hover:text-gold-light transition-colors font-sans" onclick="nextQuestion()">
+            Next question →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 4: Results ── -->
+    <div id="screen-results" class="hidden text-center">
+      <div class="mb-8">
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-3">Quiz Complete</p>
+        <h2 class="text-4xl font-serif text-foreground mb-2">Your Results</h2>
+        <p id="results-era" class="text-muted-foreground text-sm"></p>
+      </div>
+
+      <!-- Score ring -->
+      <div class="relative inline-flex items-center justify-center mb-8">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <circle cx="65" cy="65" r="58" fill="none" stroke="oklch(0.14 0 0)" stroke-width="8"/>
+          <circle id="score-ring" cx="65" cy="65" r="58" fill="none" stroke="oklch(0.72 0.12 85)" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <div class="absolute text-center">
+          <p id="score-display" class="font-serif text-4xl text-foreground"></p>
+          <p class="text-xs text-muted-foreground font-sans">score</p>
+        </div>
+      </div>
+
+      <p id="score-message" class="text-muted-foreground mb-8 max-w-xs mx-auto text-sm leading-relaxed"></p>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <button onclick="restartQuiz()" class="px-6 py-3 text-sm font-sans border border-gold text-gold rounded-lg hover:bg-gold/10 transition-colors">
+          Try Again
+        </button>
+        <button onclick="showSelect()" class="px-6 py-3 text-sm font-sans border border-border text-muted-foreground rounded-lg hover:border-gold/40 hover:text-gold transition-colors">
+          Choose Another Era
+        </button>
+        <a href="ask.html" class="px-6 py-3 text-sm font-sans bg-gold text-background rounded-lg hover:bg-gold-light transition-colors">
+          Ask the Archive
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="border-t border-border bg-background">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 text-center">
+    <p class="text-xs text-muted-foreground">Britannia Archive — A History of the United Kingdom</p>
+  </div>
+</footer>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const supabase = createClient(
+  'https://yhxswwoelahkvkwgwarc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHN3d29lbGFoa3Zrd2d3YXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NjQ5MTAsImV4cCI6MjA5NTI0MDkxMH0.xNucx3QZQCgonysDFspXEs6Ek6Ctss7hL0QNrR-43uM'
+);
+
+let questions = [], currentQ = 0, score = 0, selectedEra = '';
+
+function show(id) {
+  ['screen-select','screen-loading','screen-quiz','screen-results'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+}
+
+window.showSelect = () => show('screen-select');
+
+window.startQuiz = async (era) => {
+  selectedEra = era;
+  show('screen-loading');
+
+  // Fetch articles for this era from Supabase
+  const { data: articles } = await supabase
+    .from('articles').select('title,content,era')
+    .ilike('era', `%${era}%`).limit(10);
+
+  // Build context from articles
+  let context = '';
+  if (articles && articles.length) {
+    context = articles.map(a =>
+      `Title: ${a.title}\n${(a.content || '').replace(/<[^>]+>/g,'').slice(0,400)}`
+    ).join('\n\n---\n\n');
+  }
+
+  // Use Claude to generate quiz questions
+  const prompt = context
+    ? `Based on the following archive articles about ${era} British history, generate exactly 6 multiple-choice quiz questions.\n\nARTICLES:\n${context}\n\nReturn ONLY a JSON array (no markdown, no extra text) with this exact structure:\n[{"question":"...","options":["A","B","C","D"],"answer":0,"explanation":"..."}]\nwhere "answer" is the 0-based index of the correct option, and "explanation" is 1-2 sentences of historical context.`
+    : `Generate exactly 6 multiple-choice quiz questions about ${era} British history. Return ONLY a JSON array (no markdown, no extra text) with this exact structure:\n[{"question":"...","options":["A","B","C","D"],"answer":0,"explanation":"..."}]\nwhere "answer" is the 0-based index of the correct option, and "explanation" is 1-2 sentences of historical context.`;
+
+  try {
+    const systemPrompt = 'You are a British history quiz generator. Return ONLY valid JSON arrays. No markdown fences, no preamble, no explanation outside the JSON.';
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${window.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 1000 }
+        })
+      }
+    );
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const raw = data.candidates?.[0]?.content?.parts?.map(p => p.text||'').join('').trim() || '';
+    questions = JSON.parse(raw.replace(/```json|```/g,'').trim());
+  } catch (e) {
+    // Fallback questions if API fails
+    questions = [
+      { question: `Which monarch is most associated with the ${era} era in Britain?`, options: ['Henry VIII','William the Conqueror','Queen Victoria','George III'], answer: 0, explanation: 'This is a fallback question. Add articles to the archive for custom questions.' },
+    ];
+  }
+
+  currentQ = 0; score = 0;
+  renderQuestion();
+  show('screen-quiz');
+};
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+
+  document.getElementById('quiz-era-label').textContent = selectedEra + ' Era';
+  document.getElementById('quiz-progress-text').textContent = `${currentQ + 1} / ${total}`;
+  document.getElementById('quiz-progress-bar').style.width = `${((currentQ) / total) * 100}%`;
+  document.getElementById('question-text').textContent = q.question;
+  document.getElementById('explanation-box').classList.add('hidden');
+  document.getElementById('next-btn').classList.add('hidden');
+  document.getElementById('feedback-text').textContent = '';
+  document.getElementById('feedback-text').className = 'text-sm font-medium';
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = q.options.map((opt, i) => `
+    <button class="option-btn px-5 py-3.5 text-sm" onclick="selectAnswer(${i})">
+      <span class="text-gold font-sans text-xs mr-3 opacity-60">${String.fromCharCode(65+i)}</span>${opt}
+    </button>
+  `).join('');
+}
+
+window.selectAnswer = (i) => {
+  const q = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[q.answer].classList.add('correct');
+
+  const feedbackEl = document.getElementById('feedback-text');
+  if (i === q.answer) {
+    score++;
+    btns[i].classList.add('correct');
+    feedbackEl.textContent = '✓ Correct';
+    feedbackEl.className = 'text-sm font-medium text-green-400';
+  } else {
+    btns[i].classList.add('wrong');
+    feedbackEl.textContent = '✗ Incorrect';
+    feedbackEl.className = 'text-sm font-medium text-red-400';
+  }
+
+  document.getElementById('explanation-text').textContent = q.explanation || '';
+  document.getElementById('explanation-box').classList.remove('hidden');
+
+  const isLast = currentQ === questions.length - 1;
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.classList.remove('hidden');
+  nextBtn.textContent = isLast ? 'See results →' : 'Next question →';
+};
+
+window.nextQuestion = () => {
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+};
+
+function showResults() {
+  const pct = Math.round((score / questions.length) * 100);
+  document.getElementById('score-display').textContent = `${score}/${questions.length}`;
+  document.getElementById('results-era').textContent = selectedEra + ' Era';
+
+  const messages = [
+    [80, 'Outstanding! You have a remarkable command of British history.'],
+    [60, 'Well done — a solid grasp of the era. Keep exploring the archive.'],
+    [40, 'A fair effort. There is much more to discover in the archive.'],
+    [0,  'The archive awaits. Dive deeper into the articles to learn more.'],
+  ];
+  document.getElementById('score-message').textContent =
+    messages.find(([threshold]) => pct >= threshold)[1];
+
+  // Animate score ring
+  const circumference = 220;
+  setTimeout(() => {
+    document.getElementById('score-ring').style.strokeDashoffset =
+      circumference - (circumference * pct / 100);
+  }, 200);
+
+  show('screen-results');
+}
+
+window.restartQuiz = () => startQuiz(selectedEra);
+</script>
+</body>
+</html>

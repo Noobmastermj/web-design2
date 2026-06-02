@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Britannia Archive — CMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Instrument+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:#080705;--bg-2:#0e0c09;--bg-3:#131109;--bg-4:#191610;
+  --surface:#1a1712;--surface-2:#201d15;
+  --gold:#c49a3c;--gold-lt:#dbb96a;--gold-dim:#7a5e24;
+  --gold-glow:rgba(196,154,60,0.15);--gold-glow2:rgba(196,154,60,0.08);
+  --fg:#e8e0d0;--fg-2:#b0a890;--fg-3:#6e6655;
+  --border:rgba(196,154,60,0.12);--border-2:rgba(196,154,60,0.22);
+  --danger:#c0392b;--danger-bg:rgba(192,57,43,0.1);
+  --success:#27ae60;--success-bg:rgba(39,174,96,0.1);
+  --shadow:0 4px 24px rgba(0,0,0,0.5);--shadow-lg:0 12px 48px rgba(0,0,0,0.7);
+  --radius:3px;--sidebar-w:240px;--topbar-h:52px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{background:var(--bg);color:var(--fg);font-family:'Instrument Sans',sans-serif;font-weight:300;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:2px;}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--topbar-h);background:var(--bg-2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.75rem;}
+.topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);opacity:0.4;}
+.brand{display:flex;align-items:center;gap:0.75rem;text-decoration:none;}
+.brand-wordmark{font-family:'Cormorant',serif;font-size:1.3rem;font-weight:400;color:var(--fg);letter-spacing:0.04em;}
+.brand-sep{width:1px;height:16px;background:var(--border-2);}
+.brand-tag{font-size:0.55rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);}
+.topbar-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:0.4rem;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);animation:pulse 2.5s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.status-label{font-size:0.65rem;color:var(--fg-3);letter-spacing:0.1em;}
+.topbar-right{display:flex;align-items:center;gap:1rem;}
+.user-name{font-size:0.72rem;color:var(--fg-2);}
+.user-role{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
+.btn-logout{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border-2);background:transparent;color:var(--fg-3);cursor:pointer;border-radius:var(--radius);transition:all 0.18s;}
+.btn-logout:hover{border-color:var(--gold);color:var(--gold);}
+
+/* SHELL */
+.shell{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh;padding-top:var(--topbar-h);}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--bg-2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;z-index:100;}
+.sidebar-section{padding:1.5rem 0 0.75rem;}
+.sidebar-label{font-size:0.52rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--fg-3);padding:0 1.25rem;margin-bottom:0.4rem;}
+.nav-item{display:flex;align-items:center;gap:0.7rem;padding:0.55rem 1.25rem;font-size:0.8rem;font-weight:400;color:var(--fg-3);cursor:pointer;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;transition:all 0.15s;}
+.nav-item:hover{color:var(--fg-2);background:var(--gold-glow2);}
+.nav-item.active{color:var(--gold-lt);border-left-color:var(--gold);background:var(--gold-glow2);font-weight:500;}
+.nav-icon{width:18px;text-align:center;font-size:0.85rem;flex-shrink:0;opacity:0.7;}
+.nav-item.active .nav-icon{opacity:1;}
+.nav-badge{margin-left:auto;font-size:0.58rem;font-weight:600;background:var(--gold-glow);color:var(--gold);border:1px solid var(--border-2);padding:1px 6px;border-radius:10px;}
+.sidebar-divider{height:1px;background:var(--border);margin:0.75rem 1.25rem;}
+.sidebar-footer{margin-top:auto;padding:1.25rem;border-top:1px solid var(--border);}
+.sidebar-footer-label{font-size:0.6rem;color:var(--fg-3);letter-spacing:0.1em;margin-bottom:0.5rem;}
+.sidebar-link{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--fg-3);text-decoration:none;padding:0.35rem 0;transition:color 0.15s;}
+.sidebar-link:hover{color:var(--gold-lt);}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:calc(100vh - var(--topbar-h));background:var(--bg);}
+.panel{padding:2.5rem 2.75rem;display:none;}
+.panel.active{display:block;}
+.panel-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);position:relative;}
+.panel-header::after{content:'';position:absolute;bottom:-1px;left:0;width:60px;height:1px;background:var(--gold);}
+.panel-title{font-family:'Cormorant',serif;font-size:1.9rem;font-weight:400;color:var(--fg);}
+.panel-sub{font-size:0.75rem;color:var(--fg-3);margin-top:0.2rem;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;}
+.stat-card{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;position:relative;overflow:hidden;transition:border-color 0.2s;}
+.stat-card:hover{border-color:var(--border-2);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-lt),var(--gold));opacity:0;transition:opacity 0.2s;}
+.stat-card:hover::before{opacity:1;}
+.stat-value{font-family:'Cormorant',serif;font-size:2.4rem;font-weight:300;color:var(--gold-lt);line-height:1;}
+.stat-label{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-3);margin-top:0.35rem;}
+.stat-icon{position:absolute;right:1.25rem;top:1.25rem;font-size:1.4rem;opacity:0.12;}
+
+/* CARD */
+.card{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1.5rem;overflow:hidden;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg-4);}
+.card-head-left{display:flex;align-items:center;gap:0.65rem;}
+.card-head-icon{font-size:0.85rem;color:var(--gold);}
+.card-head-title{font-size:0.85rem;font-weight:500;color:var(--fg-2);}
+.card-head-sub{font-size:0.68rem;color:var(--fg-3);margin-top:1px;}
+.card-body{padding:1.5rem;}
+
+/* FORM */
+.field{margin-bottom:1.1rem;}
+.field-label{display:block;font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-3);margin-bottom:0.4rem;}
+input[type=text],input[type=email],input[type=password],select,textarea{width:100%;background:var(--bg-2);border:1px solid var(--border-2);padding:0.6rem 0.85rem;font-family:'Instrument Sans',sans-serif;font-size:0.85rem;font-weight:300;color:var(--fg);outline:none;border-radius:var(--radius);transition:border-color 0.18s,background 0.18s;}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);background:var(--bg-3);box-shadow:0 0 0 3px rgba(196,154,60,0.08);}
+input[readonly]{opacity:0.4;cursor:default;}
+input::placeholder,textarea::placeholder{color:var(--fg-3);}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236e6655' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.85rem center;padding-right:2rem;}
+textarea{resize:vertical;line-height:1.7;min-height:80px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+
+/* ERA PILLS */
+.era-pills{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.4rem;}
+.era-pill{font-size:0.65rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border-2);border-radius:20px;cursor:pointer;transition:all 0.15s;background:transparent;color:var(--fg-3);}
+.era-pill:hover{border-color:var(--gold-dim);color:var(--fg-2);}
+.era-pill.selected{border-color:var(--gold);color:var(--gold);background:var(--gold-glow);}
+
+/* EDITOR */
+.editor-wrap{border:1px solid var(--border-2);border-radius:var(--radius);overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+.editor-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,154,60,0.08);}
+.rich-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:6px 10px;background:var(--bg-4);border-bottom:1px solid var(--border);}
+.tb-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid transparent;border-radius:2px;cursor:pointer;font-size:0.78rem;color:var(--fg-3);transition:all 0.13s;font-family:'Instrument Sans',sans-serif;}
+.tb-btn:hover{background:var(--bg-3);border-color:var(--border-2);color:var(--fg-2);}
+.tb-sep{width:1px;height:18px;background:var(--border);margin:0 3px;}
+.tb-select{height:28px;padding:0 8px;background:transparent;border:1px solid transparent;font-family:'Instrument Sans',sans-serif;font-size:0.73rem;color:var(--fg-3);cursor:pointer;border-radius:2px;outline:none;appearance:none;transition:all 0.13s;}
+.tb-select:hover{background:var(--bg-3);border-color:var(--border-2);color:var(--fg-2);}
+[contenteditable]{outline:none;padding:1.1rem 1.25rem;min-height:160px;font-family:'Instrument Sans',sans-serif;font-size:0.88rem;line-height:1.8;color:var(--fg-2);background:var(--bg-2);}
+[contenteditable]:empty::before{content:attr(data-placeholder);color:var(--fg-3);pointer-events:none;}
+[contenteditable] h2{font-family:'Cormorant',serif;font-size:1.35rem;font-weight:400;color:var(--fg);margin:1.25rem 0 0.4rem;border-bottom:1px solid var(--border);padding-bottom:0.3rem;}
+[contenteditable] h3{font-family:'Cormorant',serif;font-size:1.1rem;font-weight:600;color:var(--fg-2);margin:1rem 0 0.35rem;}
+[contenteditable] p{margin-bottom:0.65rem;}
+[contenteditable] strong{color:var(--fg);font-weight:600;}
+[contenteditable] em{font-style:italic;}
+[contenteditable] blockquote{border-left:2px solid var(--gold);padding:0.25rem 0 0.25rem 1rem;color:var(--fg-3);margin:0.75rem 0;font-style:italic;background:var(--gold-glow2);border-radius:0 2px 2px 0;}
+[contenteditable] ul,[contenteditable] ol{padding-left:1.5rem;margin-bottom:0.5rem;}
+.word-count{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--fg-3);padding:6px 10px;background:var(--bg-4);border-top:1px solid var(--border);text-align:right;}
+
+/* AI BAR */
+.ai-assist-bar{display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;background:var(--bg-4);border-top:1px solid var(--border);}
+.ai-assist-label{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);}
+.ai-btn{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border-2);background:var(--gold-glow2);color:var(--gold);cursor:pointer;border-radius:2px;transition:all 0.15s;}
+.ai-btn:hover{background:var(--gold-glow);border-color:var(--gold-dim);}
+.ai-btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;padding:0.55rem 1.3rem;border-radius:var(--radius);cursor:pointer;border:none;transition:all 0.16s;text-decoration:none;white-space:nowrap;}
+.btn-primary{background:var(--gold);color:var(--bg);box-shadow:0 2px 12px rgba(196,154,60,0.25);}
+.btn-primary:hover{background:var(--gold-lt);box-shadow:0 4px 20px rgba(196,154,60,0.35);transform:translateY(-1px);}
+.btn-secondary{background:transparent;color:var(--fg-3);border:1px solid var(--border-2);}
+.btn-secondary:hover{border-color:var(--gold-dim);color:var(--fg-2);background:var(--gold-glow2);}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid rgba(192,57,43,0.2);}
+.btn-danger:hover{background:rgba(192,57,43,0.18);}
+.btn-ghost{background:transparent;color:var(--fg-3);border:none;}
+.btn-ghost:hover{color:var(--fg-2);}
+.btn-sm{padding:0.35rem 0.85rem;font-size:0.6rem;}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important;}
+.actions-row{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+
+/* ARTICLE LIST */
+.article-list{display:flex;flex-direction:column;}
+.article-row{display:flex;align-items:center;gap:1.1rem;padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);transition:background 0.15s;position:relative;}
+.article-row:last-child{border-bottom:none;}
+.article-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);opacity:0;transition:opacity 0.15s;}
+.article-row:hover{background:var(--gold-glow2);}
+.article-row:hover::before{opacity:1;}
+.article-row-icon{font-size:0.75rem;color:var(--fg-3);flex-shrink:0;opacity:0.5;}
+.article-row-info{flex:1;min-width:0;}
+.article-row-title{font-size:0.88rem;font-weight:500;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.article-row-meta{font-size:0.67rem;color:var(--fg-3);margin-top:2px;}
+.era-badge{font-size:0.56rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:3px 8px;background:var(--gold-glow);color:var(--gold);border:1px solid var(--border-2);border-radius:2px;white-space:nowrap;flex-shrink:0;}
+.article-row-actions{display:flex;gap:0.4rem;flex-shrink:0;opacity:0;transition:opacity 0.15s;}
+.article-row:hover .article-row-actions{opacity:1;}
+
+/* PAGE GRID */
+.page-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;}
+.page-card{background:var(--bg-4);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden;}
+.page-card:hover{border-color:var(--border-2);}
+.page-card.selected{border-color:var(--gold);background:var(--bg-3);}
+.page-card-icon{font-size:1.4rem;margin-bottom:0.6rem;}
+.page-card-title{font-size:0.88rem;font-weight:500;color:var(--fg-2);}
+.page-card-slug{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--fg-3);margin-top:3px;}
+.page-card-arrow{position:absolute;right:1rem;top:50%;transform:translateY(-50%);color:var(--fg-3);font-size:0.7rem;transition:all 0.18s;}
+.page-card:hover .page-card-arrow,.page-card.selected .page-card-arrow{right:0.75rem;color:var(--gold);}
+
+/* EDIT PANEL */
+.edit-panel{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);margin-top:1.25rem;overflow:hidden;display:none;}
+.edit-panel.open{display:block;animation:slideDown 0.22s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.edit-panel-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:var(--bg-4);border-bottom:1px solid var(--border);}
+.edit-panel-title{font-family:'Cormorant',serif;font-size:1.15rem;font-weight:400;color:var(--fg);}
+.edit-panel-slug{font-family:'JetBrains Mono',monospace;font-size:0.63rem;color:var(--gold);margin-top:2px;}
+.edit-panel-body{padding:1.5rem;}
+
+/* FILTER BAR */
+.filter-bar{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1.25rem;background:var(--bg-4);border-bottom:1px solid var(--border);}
+.search-input-wrap{position:relative;flex:1;}
+.search-input-wrap svg{position:absolute;left:0.7rem;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--fg-3);pointer-events:none;}
+.search-input{width:100%;background:var(--bg-2);border:1px solid var(--border);padding:0.45rem 0.75rem 0.45rem 2.1rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;color:var(--fg);border-radius:var(--radius);transition:all 0.15s;outline:none;}
+.search-input:focus{border-color:var(--gold);background:var(--bg-3);}
+.search-input::placeholder{color:var(--fg-3);}
+.era-filter{font-size:0.65rem;padding:0.4rem 0.7rem;background:var(--bg-2);border:1px solid var(--border);color:var(--fg-3);border-radius:var(--radius);cursor:pointer;appearance:none;outline:none;transition:border-color 0.15s;}
+.era-filter:focus{border-color:var(--gold);}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:1.75rem;right:1.75rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem;}
+.toast{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.1rem;background:var(--surface-2);color:var(--fg-2);font-size:0.76rem;border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);border-left:3px solid var(--gold);animation:toastIn 0.22s ease;max-width:300px;}
+.toast.success{border-left-color:var(--success);}
+.toast.error{border-left-color:var(--danger);}
+@keyframes toastIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+
+/* AUTH */
+#auth-view{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;}
+#auth-view::before{content:'BRITANNIA';position:absolute;font-family:'Cormorant',serif;font-size:18vw;font-weight:300;color:rgba(196,154,60,0.025);letter-spacing:0.1em;white-space:nowrap;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;user-select:none;}
+.auth-card{width:100%;max-width:360px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-lg);position:relative;z-index:1;}
+.auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),var(--gold-lt),var(--gold-dim));border-radius:var(--radius) var(--radius) 0 0;}
+.auth-logo{display:flex;align-items:center;gap:0.6rem;margin-bottom:2rem;}
+.auth-logo-mark{width:32px;height:32px;background:var(--gold-glow);border:1px solid var(--border-2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant',serif;font-size:1.1rem;color:var(--gold);}
+.auth-title{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:400;color:var(--fg);}
+.auth-sub{font-size:0.73rem;color:var(--fg-3);margin-top:0.2rem;}
+.auth-err{font-size:0.75rem;color:var(--danger);background:var(--danger-bg);border:1px solid rgba(192,57,43,0.2);padding:0.5rem 0.75rem;border-radius:2px;margin-top:0.75rem;display:none;}
+.auth-err.show{display:block;}
+
+.hidden{display:none!important;}
+.empty-state{text-align:center;padding:3rem;color:var(--fg-3);font-size:0.82rem;font-style:italic;}
+.empty-state-icon{font-size:2rem;margin-bottom:0.75rem;opacity:0.3;}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;}
+.tag-gold{background:var(--gold-glow);color:var(--gold);border:1px solid var(--border-2);}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- AUTH -->
+<div id="auth-view">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-mark">B</div>
+      <div>
+        <div class="auth-title">Archive CMS</div>
+        <div class="auth-sub">Sign in to manage content</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Email address</label>
+      <input type="email" id="email" placeholder="curator@britannia.org" autocomplete="email"/>
+    </div>
+    <div class="field">
+      <label class="field-label">Password</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem" id="btn-login">Enter the Archive</button>
+    <div class="auth-err" id="auth-err"></div>
+  </div>
+</div>
+
+<!-- CMS -->
+<div id="cms-shell" class="hidden" style="min-height:100vh">
+  <header class="topbar">
+    <a href="index.html" class="brand" target="_blank">
+      <span class="brand-wordmark">Britannia</span>
+      <span class="brand-sep"></span>
+      <span class="brand-tag">CMS</span>
+    </a>
+    <div class="topbar-center">
+      <div class="status-dot" id="status-dot"></div>
+      <span class="status-label" id="status-label">Connecting…</span>
+    </div>
+    <div class="topbar-right">
+      <div id="user-info" class="hidden" style="text-align:right">
+        <div class="user-name" id="user-email"></div>
+        <div class="user-role">Curator</div>
+      </div>
+      <button class="btn-logout" id="btn-logout">Sign out</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Content</div>
+        <button class="nav-item active" data-panel="articles">
+          <span class="nav-icon">✦</span> Articles
+          <span class="nav-badge" id="nav-art-count">—</span>
+        </button>
+        <button class="nav-item" data-panel="pages">
+          <span class="nav-icon">◈</span> Era Pages
+        </button>
+        <button class="nav-item" data-panel="dashboard">
+          <span class="nav-icon">◎</span> Dashboard
+        </button>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-label">Visit Site</div>
+        <a href="index.html" target="_blank" class="sidebar-link">↗ Homepage</a>
+        <a href="search.html" target="_blank" class="sidebar-link">↗ Search</a>
+        <a href="ask.html" target="_blank" class="sidebar-link">↗ Ask</a>
+        <a href="quiz.html" target="_blank" class="sidebar-link">↗ Quiz</a>
+        <a href="timeline.html" target="_blank" class="sidebar-link">↗ Timeline</a>
+      </div>
+    </aside>
+
+    <div class="main">
+
+      <!-- DASHBOARD -->
+      <div class="panel" id="panel-dashboard">
+        <div class="panel-header">
+          <div><div class="panel-title">Dashboard</div><div class="panel-sub">Archive at a glance</div></div>
+          <span class="tag tag-gold" id="dash-date"></span>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><span class="stat-icon">✦</span><div class="stat-value" id="stat-articles">—</div><div class="stat-label">Articles</div></div>
+          <div class="stat-card"><span class="stat-icon">◈</span><div class="stat-value" id="stat-pages">—</div><div class="stat-label">Era Pages</div></div>
+          <div class="stat-card"><span class="stat-icon">⚔</span><div class="stat-value" id="stat-eras">—</div><div class="stat-label">Eras Covered</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-head-left"><span class="card-head-icon">✦</span><div><div class="card-head-title">Recent Articles</div><div class="card-head-sub">Last 5 additions</div></div></div>
+            <button class="btn btn-secondary btn-sm" onclick="showPanel('articles')">View all</button>
+          </div>
+          <div class="article-list" id="dash-recent"></div>
+        </div>
+      </div>
+
+      <!-- ARTICLES -->
+      <div class="panel active" id="panel-articles">
+        <div class="panel-header">
+          <div><div class="panel-title">Articles</div><div class="panel-sub">Create and manage archive articles</div></div>
+        </div>
+
+        <div class="card" id="article-form-card">
+          <div class="card-head">
+            <div class="card-head-left"><span class="card-head-icon">✎</span><div><div class="card-head-title" id="article-form-title">New Article</div><div class="card-head-sub">Fill in the fields and save to publish</div></div></div>
+          </div>
+          <div class="card-body">
+            <input type="hidden" id="art-id"/>
+            <div class="grid-2">
+              <div class="field"><label class="field-label">Title</label><input type="text" id="art-title" placeholder="Article title…"/></div>
+              <div class="field"><label class="field-label">Historical Period</label><input type="text" id="art-period" placeholder="e.g. 1066–1154…"/></div>
+            </div>
+            <div class="field">
+              <label class="field-label">Era</label>
+              <div class="era-pills" id="era-pills">
+                <button class="era-pill" data-era="Medieval">Medieval</button>
+                <button class="era-pill" data-era="Tudor">Tudor & Stuart</button>
+                <button class="era-pill" data-era="Georgian">Georgian & Victorian</button>
+                <button class="era-pill" data-era="Modern">Modern</button>
+              </div>
+              <input type="hidden" id="art-era"/>
+            </div>
+            <div class="field">
+              <label class="field-label">Content</label>
+              <div class="editor-wrap">
+                <div class="rich-toolbar">
+                  <select class="tb-select" onchange="formatDoc('formatBlock',this.value);this.value=''">
+                    <option value="">Paragraph</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="p">Normal</option>
+                  </select>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" onclick="formatDoc('bold')" title="Bold"><strong>B</strong></button>
+                  <button class="tb-btn" onclick="formatDoc('italic')" title="Italic"><em>I</em></button>
+                  <button class="tb-btn" onclick="formatDoc('underline')" title="Underline"><u>U</u></button>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" onclick="formatDoc('insertUnorderedList')" title="Bullets">≡</button>
+                  <button class="tb-btn" onclick="formatDoc('insertOrderedList')" title="Numbered">①</button>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" onclick="formatDoc('formatBlock','blockquote')" title="Quote">"</button>
+                  <button class="tb-btn" onclick="formatDoc('removeFormat')" title="Clear">✕</button>
+                </div>
+                <div id="art-content" contenteditable="true" data-placeholder="Write your article content here…"></div>
+                <div class="ai-assist-bar">
+                  <span class="ai-assist-label">AI Assist</span>
+                  <button class="ai-btn" id="btn-ai-expand">✦ Expand</button>
+                  <button class="ai-btn" id="btn-ai-improve">✦ Improve</button>
+                  <button class="ai-btn" id="btn-ai-summarise">✦ Summarise</button>
+                  <span style="margin-left:auto;font-size:0.6rem;color:var(--fg-3)">Powered by Gemini</span>
+                </div>
+                <div class="word-count" id="art-word-count">0 words</div>
+              </div>
+            </div>
+            <div class="actions-row" style="margin-top:1rem">
+              <button class="btn btn-primary" id="btn-save-art">Save Article</button>
+              <button class="btn btn-secondary" id="btn-discard-art">Discard</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-head-left"><span class="card-head-icon">◎</span><div><div class="card-head-title">Published Articles</div><div class="card-head-sub" id="art-count">Loading…</div></div></div>
+          </div>
+          <div class="filter-bar">
+            <div class="search-input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="text" class="search-input" id="art-search" placeholder="Filter by title…"/>
+            </div>
+            <select class="era-filter" id="art-era-filter">
+              <option value="">All eras</option>
+              <option value="Medieval">Medieval</option>
+              <option value="Tudor">Tudor</option>
+              <option value="Georgian">Georgian</option>
+              <option value="Modern">Modern</option>
+            </select>
+          </div>
+          <div class="article-list" id="list-articles">
+            <div class="empty-state"><div class="empty-state-icon">✦</div>Loading articles…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ERA PAGES -->
+      <div class="panel" id="panel-pages">
+        <div class="panel-header">
+          <div><div class="panel-title">Era Pages</div><div class="panel-sub">Edit the main historical era content pages</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div class="card-head-left"><span class="card-head-icon">◈</span><div><div class="card-head-title">Select a Page</div><div class="card-head-sub">Click a card to open the editor</div></div></div>
+          </div>
+          <div class="card-body">
+            <div class="page-grid" id="pages-list"><div class="empty-state" style="grid-column:1/-1">Loading…</div></div>
+          </div>
+        </div>
+        <div class="edit-panel" id="page-edit-panel">
+          <div class="edit-panel-head">
+            <div><div class="edit-panel-title" id="ep-title">Editing page</div><div class="edit-panel-slug" id="ep-slug"></div></div>
+            <button class="btn btn-ghost btn-sm" id="btn-close-ep">✕ Close</button>
+          </div>
+          <div class="edit-panel-body">
+            <input type="hidden" id="page-id"/>
+            <div class="grid-2">
+              <div class="field"><label class="field-label">Display Title</label><input type="text" id="page-title-input"/></div>
+              <div class="field"><label class="field-label">Slug (read-only)</label><input type="text" id="page-slug-input" readonly/></div>
+            </div>
+            <div class="field"><label class="field-label">Introduction Text</label><textarea id="page-intro" rows="3" placeholder="Short introductory paragraph…"></textarea></div>
+            <div class="field">
+              <label class="field-label">Main Content</label>
+              <div class="editor-wrap">
+                <div class="rich-toolbar">
+                  <select class="tb-select" onchange="formatDocPage('formatBlock',this.value);this.value=''">
+                    <option value="">Paragraph</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="p">Normal</option>
+                  </select>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" onclick="formatDocPage('bold')"><strong>B</strong></button>
+                  <button class="tb-btn" onclick="formatDocPage('italic')"><em>I</em></button>
+                  <button class="tb-btn" onclick="formatDocPage('underline')"><u>U</u></button>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" onclick="formatDocPage('insertUnorderedList')">≡</button>
+                  <button class="tb-btn" onclick="formatDocPage('insertOrderedList')">①</button>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" onclick="formatDocPage('formatBlock','blockquote')">"</button>
+                  <button class="tb-btn" onclick="formatDocPage('removeFormat')">✕</button>
+                </div>
+                <div id="page-content-editor" contenteditable="true" data-placeholder="Write the main era page content here…"></div>
+                <div class="ai-assist-bar">
+                  <span class="ai-assist-label">AI Assist</span>
+                  <button class="ai-btn" id="btn-ai-page-expand">✦ Expand</button>
+                  <span style="margin-left:auto;font-size:0.6rem;color:var(--fg-3)">Powered by Gemini</span>
+                </div>
+                <div class="word-count" id="page-word-count">0 words</div>
+              </div>
+            </div>
+            <div class="actions-row" style="margin-top:1rem">
+              <button class="btn btn-primary" id="btn-save-page">Save Changes</button>
+              <button class="btn btn-secondary" id="btn-cancel-page">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const sb = createClient(
+  'https://yhxswwoelahkvkwgwarc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHN3d29lbGFoa3Zrd2d3YXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NjQ5MTAsImV4cCI6MjA5NTI0MDkxMH0.xNucx3QZQCgonysDFspXEs6Ek6Ctss7hL0QNrR-43uM'
+);
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+let allArticles = [], allPages = [], selectedPageId = null;
+
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function toast(msg, type='success'){
+  const t = document.createElement('div');
+  t.className=`toast ${type}`;
+  t.innerHTML=`<span>${type==='success'?'✓':type==='error'?'✗':'ℹ'}</span> ${msg}`;
+  $('#toast-wrap').appendChild(t);
+  setTimeout(()=>t.remove(), 3200);
+}
+
+// rich text
+window.formatDoc=(cmd,val)=>{ $('#art-content').focus(); document.execCommand(cmd,false,val||null); updateWC(); };
+window.formatDocPage=(cmd,val)=>{ $('#page-content-editor').focus(); document.execCommand(cmd,false,val||null); updatePageWC(); };
+function updateWC(){ const e=$('#art-content'); if(e) $('#art-word-count').textContent=`${(e.innerText||'').trim().split(/\s+/).filter(Boolean).length} words`; }
+function updatePageWC(){ const e=$('#page-content-editor'); if(e) $('#page-word-count').textContent=`${(e.innerText||'').trim().split(/\s+/).filter(Boolean).length} words`; }
+$('#art-content').addEventListener('input', updateWC);
+$('#page-content-editor').addEventListener('input', updatePageWC);
+
+function stripCls(html){ const d=document.createElement('div');d.innerHTML=html||'';d.querySelectorAll('[class]').forEach(e=>e.removeAttribute('class'));return d.innerHTML; }
+
+// era pills
+$$('.era-pill').forEach(p=>p.addEventListener('click',()=>{
+  $$('.era-pill').forEach(x=>x.classList.remove('selected'));
+  p.classList.add('selected'); $('#art-era').value=p.dataset.era;
+}));
+
+// auth
+sb.auth.onAuthStateChange((_,session)=>{
+  if(session){
+    $('#auth-view').classList.add('hidden');
+    $('#cms-shell').classList.remove('hidden');
+    $('#user-info').classList.remove('hidden');
+    $('#user-email').textContent=session.user.email;
+    loadAll();
+  } else {
+    $('#auth-view').classList.remove('hidden');
+    $('#cms-shell').classList.add('hidden');
+  }
+});
+$('#btn-login').onclick=async()=>{
+  const btn=$('#btn-login'); btn.disabled=true; btn.textContent='Signing in…';
+  const {error}=await sb.auth.signInWithPassword({email:$('#email').value.trim(),password:$('#password').value});
+  btn.disabled=false; btn.textContent='Enter the Archive';
+  if(error){ const e=$('#auth-err'); e.textContent=error.message; e.classList.add('show'); }
+};
+$('#password').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#btn-login').click(); });
+$('#btn-logout').onclick=()=>sb.auth.signOut();
+
+// nav
+window.showPanel=name=>{
+  $$('.panel').forEach(p=>p.classList.remove('active'));
+  $$('.nav-item').forEach(b=>b.classList.remove('active'));
+  $(`#panel-${name}`)?.classList.add('active');
+  document.querySelector(`[data-panel="${name}"]`)?.classList.add('active');
+  if(name==='dashboard') renderDashboard();
+};
+$$('.nav-item').forEach(b=>b.addEventListener('click',()=>showPanel(b.dataset.panel)));
+$('#dash-date').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+async function loadAll(){
+  const [ar,pr]=await Promise.all([
+    sb.from('articles').select('*').order('created_at',{ascending:false}),
+    sb.from('pages').select('*').order('slug')
+  ]);
+  if(ar.error||pr.error){
+    const dot=$('#status-dot'), lbl=$('#status-label');
+    if(dot){ dot.style.background='var(--danger)'; dot.style.boxShadow='0 0 8px var(--danger)'; }
+    if(lbl) lbl.textContent='Database error';
+  } else {
+    const dot=$('#status-dot'), lbl=$('#status-label');
+    if(dot){ dot.style.background='var(--success)'; dot.style.boxShadow='0 0 8px var(--success)'; }
+    if(lbl) lbl.textContent='Connected to Supabase';
+  }
+  allArticles=ar.data||[]; allPages=pr.data||[];
+  $('#stat-articles').textContent=allArticles.length;
+  $('#stat-pages').textContent=allPages.length;
+  $('#stat-eras').textContent=new Set(allArticles.map(a=>a.era).filter(Boolean)).size;
+  $('#nav-art-count').textContent=allArticles.length;
+  renderArticles(); renderPages();
+}
+
+// filter
+$('#art-search').addEventListener('input', renderArticles);
+$('#art-era-filter').addEventListener('change', renderArticles);
+function filtered(){
+  const q=$('#art-search').value.toLowerCase();
+  const era=$('#art-era-filter').value;
+  return allArticles.filter(a=>(!q||(a.title||'').toLowerCase().includes(q))&&(!era||(a.era||'').toLowerCase().includes(era.toLowerCase())));
+}
+
+function renderArticles(){
+  const list=$('#list-articles');
+  $('#art-count').textContent=`${allArticles.length} article${allArticles.length!==1?'s':''}`;
+  const data=filtered();
+  if(!data.length){ list.innerHTML=`<div class="empty-state"><div class="empty-state-icon">◎</div>${allArticles.length?'No articles match your filter.':'No articles yet. Create one above.'}</div>`; return; }
+  list.innerHTML=data.map(a=>`
+    <div class="article-row">
+      <span class="article-row-icon">✦</span>
+      <div class="article-row-info">
+        <div class="article-row-title">${esc(a.title)}</div>
+        <div class="article-row-meta">${new Date(a.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <span class="era-badge">${esc(a.era||'—')}</span>
+      <div class="article-row-actions">
+        <button class="btn btn-secondary btn-sm" onclick="window.editArt('${a.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="window.deleteArt('${a.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+window.editArt=id=>{
+  const a=allArticles.find(x=>x.id===id); if(!a) return;
+  $('#art-id').value=a.id; $('#art-title').value=a.title||''; $('#art-period').value=a.period||'';
+  $('#art-content').innerHTML=stripCls(a.content||''); updateWC();
+  $$('.era-pill').forEach(p=>p.classList.remove('selected'));
+  document.querySelector(`.era-pill[data-era="${a.era}"]`)?.classList.add('selected');
+  $('#art-era').value=a.era||'';
+  $('#article-form-title').textContent='Editing Article';
+  $('#article-form-card').scrollIntoView({behavior:'smooth',block:'start'});
+};
+window.deleteArt=async id=>{
+  const a=allArticles.find(x=>x.id===id);
+  if(!confirm(`Delete "${a?.title||'this article'}"? Cannot be undone.`)) return;
+  const {error}=await sb.from('articles').delete().eq('id',id);
+  if(error){ toast('Delete failed: '+error.message,'error'); return; }
+  toast('Article deleted'); loadAll();
+};
+
+const clearArt=()=>{
+  $('#art-id').value=''; $('#art-title').value=''; $('#art-period').value='';
+  $('#art-era').value=''; $('#art-content').innerHTML='';
+  $$('.era-pill').forEach(p=>p.classList.remove('selected'));
+  $('#article-form-title').textContent='New Article'; updateWC();
+};
+$('#btn-discard-art').onclick=clearArt;
+
+$('#btn-save-art').onclick=async()=>{
+  const id=$('#art-id').value, title=$('#art-title').value.trim(), era=$('#art-era').value.trim();
+  const content=$('#art-content').innerHTML, period=$('#art-period').value.trim();
+  if(!title){ toast('Please enter a title','error'); return; }
+  const payload={title,era,content,...(period&&{period})};
+  const btn=$('#btn-save-art'); btn.disabled=true; btn.textContent='Saving…';
+  const {error}=id ? await sb.from('articles').update(payload).eq('id',id) : await sb.from('articles').insert(payload);
+  btn.disabled=false; btn.textContent='Save Article';
+  if(error){ toast('Save failed: '+error.message,'error'); return; }
+  toast(id?'Article updated ✓':'Article published ✓');
+  clearArt(); loadAll();
+};
+
+function renderDashboard(){
+  const el=$('#dash-recent');
+  if(!allArticles.length){ el.innerHTML='<div class="empty-state">No articles yet.</div>'; return; }
+  el.innerHTML=allArticles.slice(0,5).map(a=>`
+    <div class="article-row">
+      <span class="article-row-icon">✦</span>
+      <div class="article-row-info">
+        <div class="article-row-title">${esc(a.title)}</div>
+        <div class="article-row-meta">${new Date(a.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <span class="era-badge">${esc(a.era||'—')}</span>
+      <div class="article-row-actions">
+        <button class="btn btn-secondary btn-sm" onclick="showPanel('articles');window.editArt('${a.id}')">Edit</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderPages(){
+  const list=$('#pages-list');
+  if(!allPages.length){ list.innerHTML='<div class="empty-state" style="grid-column:1/-1">No pages found.</div>'; return; }
+  const icons={medieval:'⚔','tudor-stuart':'♔','georgian-victorian':'⚙',modern:'◉'};
+  list.innerHTML=allPages.map(p=>`
+    <div class="page-card ${selectedPageId===p.id?'selected':''}" onclick="window.selectPage('${p.id}')">
+      <div class="page-card-icon">${icons[p.slug]||'◈'}</div>
+      <div class="page-card-title">${esc(p.title)}</div>
+      <div class="page-card-slug">/${p.slug}</div>
+      <span class="page-card-arrow">→</span>
+    </div>`).join('');
+}
+
+window.selectPage=id=>{
+  selectedPageId=id; const p=allPages.find(x=>x.id===id); if(!p) return;
+  $('#page-id').value=p.id; $('#page-title-input').value=p.title||''; $('#page-slug-input').value=p.slug||'';
+  $('#page-intro').value=p.intro_text||''; $('#page-content-editor').innerHTML=stripCls(p.main_content||'');
+  $('#ep-title').textContent=`Editing: ${p.title}`; $('#ep-slug').textContent=`/${p.slug}`;
+  updatePageWC();
+  const panel=$('#page-edit-panel'); panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth',block:'start'}); renderPages();
+};
+$('#btn-close-ep').onclick=$('#btn-cancel-page').onclick=()=>{ selectedPageId=null; $('#page-edit-panel').classList.remove('open'); renderPages(); };
+
+$('#btn-save-page').onclick=async()=>{
+  const id=$('#page-id').value, title=$('#page-title-input').value.trim();
+  const intro_text=$('#page-intro').value.trim(), main_content=$('#page-content-editor').innerHTML;
+  if(!title){ toast('Please enter a title','error'); return; }
+  const btn=$('#btn-save-page'); btn.disabled=true; btn.textContent='Saving…';
+  const {error}=await sb.from('pages').update({title,intro_text,main_content}).eq('id',id);
+  btn.disabled=false; btn.textContent='Save Changes';
+  if(error){ toast('Save failed: '+error.message,'error'); return; }
+  toast('Page saved ✓'); loadAll();
+};
+
+// AI ASSIST
+async function claudeAI(prompt){
+  const res=await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${window.GEMINI_API_KEY}`,
+    {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{parts:[{text:'You are a British history expert and academic writer. Write in an authoritative but engaging style. Return only clean HTML using <p>, <h2>, <h3>, <blockquote> tags. No preamble, no markdown.'}]},
+        contents:[{role:'user',parts:[{text:prompt}]}],
+        generationConfig:{maxOutputTokens:1000}
+      })
+    }
+  );
+  const d=await res.json();
+  if(d.error) throw new Error(d.error.message);
+  return d.candidates?.[0]?.content?.parts?.map(b=>b.text||'').join('')||'';
+}
+
+async function runAI(btn, prompt, targetId, updateFn, resetLabel){
+  btn.disabled=true; btn.textContent='●●●';
+  try {
+    const result=await claudeAI(prompt);
+    $(targetId).innerHTML=$(targetId).innerHTML+result;
+    updateFn(); toast('AI content added ✓');
+  } catch(e){ toast('AI failed: '+e.message,'error'); }
+  btn.disabled=false;
+  btn.textContent=resetLabel||btn.textContent;
+}
+
+$('#btn-ai-expand').onclick=()=>{\
+  const title=$('#art-title').value||'this topic', era=$('#art-era').value||'British history';
+  const current=$('#art-content').innerText.slice(0,400);
+  const btn=$('#btn-ai-expand');
+  runAI(btn,`Expand this article about "${title}" (${era} era). Current content: "${current}". Add 2–3 more substantive historical paragraphs.`,'#art-content',updateWC,'✦ Expand');
+};
+$('#btn-ai-improve').onclick=async()=>{
+  const btn=$('#btn-ai-improve'), current=$('#art-content').innerHTML;
+  if(!current.trim()){ toast('Add some content first','error'); return; }
+  btn.disabled=true; btn.textContent='●●●';
+  try {
+    const result=await claudeAI(`Improve the writing quality of this British history article. Make it more engaging, precise and scholarly. Return the full improved HTML:\n\n${current}`);
+    $('#art-content').innerHTML=result; updateWC(); toast('Writing improved ✓');
+  } catch(e){ toast('AI failed: '+e.message,'error'); }
+  btn.disabled=false; btn.textContent='✦ Improve';
+};
+$('#btn-ai-summarise').onclick=()=>{
+  const title=$('#art-title').value||'this topic', current=$('#art-content').innerText.slice(0,600);
+  const btn=$('#btn-ai-summarise');
+  runAI(btn,`Write a 2-sentence intro summary <p> tag for a British history article titled "${title}": "${current}". Return just the <p> tag.`,'#art-content',updateWC,'✦ Summarise');
+};
+$('#btn-ai-page-expand').onclick=()=>{
+  const title=$('#page-title-input').value||'this era', current=$('#page-content-editor').innerText.slice(0,400);
+  const btn=$('#btn-ai-page-expand');
+  runAI(btn,`Add 2 informative paragraphs about ${title} British history. Current text: "${current}". Focus on key political, social and cultural developments.`,'#page-content-editor',updatePageWC,'✦ Expand');
+};
+
+// ⌘S to save
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='s'){
+    e.preventDefault();
+    const active=document.querySelector('.panel.active');
+    if(active?.id==='panel-articles') $('#btn-save-art').click();
+    else if(active?.id==='panel-pages'&&$('#page-edit-panel').classList.contains('open')) $('#btn-save-page').click();
+  }
+});
+</script>
+</body>
+</html>
