@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Timeline — Britannia Archive</title>
+<meta name="description" content="A chronological timeline of British history." />
+<meta property="og:title" content="Timeline — Britannia Archive" />
+<meta property="og:description" content="A chronological timeline of British history." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: {
+  fontFamily: { serif: ['"Instrument Serif"','Georgia','serif'], sans: ['"Work Sans"','system-ui','sans-serif'] },
+  colors: {
+    background: 'oklch(0.05 0 0)', foreground: 'oklch(0.92 0 0)',
+    card: 'oklch(0.08 0 0)', 'card-foreground': 'oklch(0.92 0 0)',
+    primary: { DEFAULT: 'oklch(0.72 0.12 85)', foreground: 'oklch(0.05 0 0)' },
+    muted: { DEFAULT: 'oklch(0.14 0 0)', foreground: 'oklch(0.55 0 0)' },
+    border: 'oklch(0.18 0 0)', input: 'oklch(0.18 0 0)',
+    gold: { DEFAULT: 'oklch(0.72 0.12 85)', light: 'oklch(0.88 0.10 85)', dark: 'oklch(0.60 0.10 85)' },
+  },
+}}};
+</script>
+<style>
+  body{background:oklch(0.05 0 0);color:oklch(0.92 0 0);font-family:"Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,h5,h6{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-0.01em}
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-xl font-serif tracking-tight text-foreground">Britannia</span>
+        <span class="text-gold text-xs font-sans tracking-widest uppercase">Archive</span>
+      </a>
+      
+      <!-- Desktop Navigation (Hidden on Mobile/Tablet) -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium transition-colors hover:text-foreground">Home</a>
+        <a href="medieval.html" class="text-sm font-medium transition-colors hover:text-foreground">Medieval</a>
+        <a href="tudor-stuart.html" class="text-sm font-medium transition-colors hover:text-foreground">Tudor & Stuart</a>
+        <a href="georgian-victorian.html" class="text-sm font-medium transition-colors hover:text-foreground">Georgian & Victorian</a>
+        <a href="modern.html" class="text-sm font-medium transition-colors hover:text-foreground">Modern</a>
+        <a href="timeline.html" class="text-sm font-medium transition-colors hover:text-foreground">Timeline</a>
+      </nav>
+
+      <!-- Mobile/Tablet Toggle Button (Visible only below 'md' breakpoint) -->
+      <div class="flex md:hidden">
+        <button id="mobile-menu-btn" type="button" class="text-muted-foreground hover:text-foreground focus:outline-none" aria-label="Toggle Menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu (Hidden by default, styled for dark theme integration) -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+    <div class="space-y-1 px-4 pb-6 pt-3">
+      <a href="index.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Home</a>
+      <a href="medieval.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Medieval</a>
+      <a href="tudor-stuart.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Tudor & Stuart</a>
+      <a href="georgian-victorian.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Georgian & Victorian</a>
+      <a href="modern.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Modern</a>
+      <a href="timeline.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Timeline</a>
+    </div>
+  </div>
+
+  <!-- Client-Side Menu & Navigation Helper -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeIcon = document.getElementById('close-icon');
+
+      // 1. Mobile Menu Open/Close Toggle
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          const isMenuHidden = mobileMenu.classList.contains('hidden');
+          if (isMenuHidden) {
+            mobileMenu.classList.remove('hidden');
+            hamburgerIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+          } else {
+            mobileMenu.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          }
+        });
+      }
+
+      // 2. Automated Active Link Detection & Highlighting
+      const currentFilename = window.location.pathname.split('/').pop() || 'index.html';
+      const allNavigationLinks = document.querySelectorAll('header nav a, #mobile-menu a');
+
+      allNavigationLinks.forEach(link => {
+        const linkDestination = link.getAttribute('href');
+        if (linkDestination === currentFilename) {
+          link.classList.add('text-gold');
+          link.classList.remove('text-muted-foreground');
+        } else {
+          link.classList.add('text-muted-foreground');
+          link.classList.remove('text-gold');
+        }
+      });
+    });
+  </script>
+</header>
+<main class="flex-1 pt-16">
+
+<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
+  <div class="text-center mb-16">
+    <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-2">Chronological Overview</p>
+    <h1 class="text-4xl sm:text-5xl font-serif text-foreground">Timeline</h1>
+    <p class="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">A century-by-century journey through the events that shaped the United Kingdom.</p>
+  </div>
+  <div class="relative">
+    <div class="absolute left-4 sm:left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2"></div>
+    <div class="space-y-8">
+      
+      <!-- 1066 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1066</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Norman Conquest</h3>
+          <p class="text-sm text-muted-foreground mt-1">William the Conqueror defeats Harold at Hastings.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1066</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Norman Conquest</h3>
+          <p class="text-sm text-muted-foreground mt-1">William the Conqueror defeats Harold at Hastings.</p>
+        </div></div>
+      </div>
+
+      <!-- 1086 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1086</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Domesday Book</h3>
+          <p class="text-sm text-muted-foreground mt-1">Comprehensive survey of England's land and resources.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1086</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Domesday Book</h3>
+          <p class="text-sm text-muted-foreground mt-1">Comprehensive survey of England's land and resources.</p>
+        </div></div>
+      </div>
+
+      <!-- 1170 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1170</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Murder of Thomas Becket</h3>
+          <p class="text-sm text-muted-foreground mt-1">The Archbishop of Canterbury is killed in Canterbury Cathedral.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1170</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Murder of Thomas Becket</h3>
+          <p class="text-sm text-muted-foreground mt-1">The Archbishop of Canterbury is killed in Canterbury Cathedral.</p>
+        </div></div>
+      </div>
+
+      <!-- 1215 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1215</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Magna Carta</h3>
+          <p class="text-sm text-muted-foreground mt-1">King John agrees to limits on royal power at Runnymede.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1215</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Magna Carta</h3>
+          <p class="text-sm text-muted-foreground mt-1">King John agrees to limits on royal power at Runnymede.</p>
+        </div></div>
+      </div>
+
+      <!-- 1348 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1348</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Black Death</h3>
+          <p class="text-sm text-muted-foreground mt-1">Plague kills an estimated one-third of England's population.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1348</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Black Death</h3>
+          <p class="text-sm text-muted-foreground mt-1">Plague kills an estimated one-third of England's population.</p>
+        </div></div>
+      </div>
+
+      <!-- 1415 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1415</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Agincourt</h3>
+          <p class="text-sm text-muted-foreground mt-1">Henry V's longbowmen defeat the French.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1415</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Agincourt</h3>
+          <p class="text-sm text-muted-foreground mt-1">Henry V's longbowmen defeat the French.</p>
+        </div></div>
+      </div>
+
+      <!-- 1455 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1455</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Wars of the Roses begin</h3>
+          <p class="text-sm text-muted-foreground mt-1">Civil war between houses of York and Lancaster.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1455</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Medieval</span>
+          </div>
+          <h3 class="font-serif text-foreground">Wars of the Roses begin</h3>
+          <p class="text-sm text-muted-foreground mt-1">Civil war between houses of York and Lancaster.</p>
+        </div></div>
+      </div>
+
+      <!-- 1485 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1485</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Bosworth Field</h3>
+          <p class="text-sm text-muted-foreground mt-1">Henry Tudor defeats Richard III; Tudor dynasty begins.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1485</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Bosworth Field</h3>
+          <p class="text-sm text-muted-foreground mt-1">Henry Tudor defeats Richard III; Tudor dynasty begins.</p>
+        </div></div>
+      </div>
+
+      <!-- 1534 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1534</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Act of Supremacy</h3>
+          <p class="text-sm text-muted-foreground mt-1">Henry VIII breaks with Rome; Church of England established.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1534</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Act of Supremacy</h3>
+          <p class="text-sm text-muted-foreground mt-1">Henry VIII breaks with Rome; Church of England established.</p>
+        </div></div>
+      </div>
+
+      <!-- 1588 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1588</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Defeat of Spanish Armada</h3>
+          <p class="text-sm text-muted-foreground mt-1">Elizabeth I's navy repels the Spanish invasion fleet.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1588</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Defeat of Spanish Armada</h3>
+          <p class="text-sm text-muted-foreground mt-1">Elizabeth I's navy repels the Spanish invasion fleet.</p>
+        </div></div>
+      </div>
+
+      <!-- 1603 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1603</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Union of the Crowns</h3>
+          <p class="text-sm text-muted-foreground mt-1">James VI of Scotland becomes James I of England.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1603</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Union of the Crowns</h3>
+          <p class="text-sm text-muted-foreground mt-1">James VI of Scotland becomes James I of England.</p>
+        </div></div>
+      </div>
+
+      <!-- 1620 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1620</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Pilgrims sail to America</h3>
+          <p class="text-sm text-muted-foreground mt-1">The Mayflower departs from Plymouth for the New World.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1620</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Pilgrims sail to America</h3>
+          <p class="text-sm text-muted-foreground mt-1">The Mayflower departs from Plymouth for the New World.</p>
+        </div></div>
+      </div>
+
+      <!-- 1649 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1649</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Execution of Charles I</h3>
+          <p class="text-sm text-muted-foreground mt-1">The king is tried and executed; Commonwealth established.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1649</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Execution of Charles I</h3>
+          <p class="text-sm text-muted-foreground mt-1">The king is tried and executed; Commonwealth established.</p>
+        </div></div>
+      </div>
+
+      <!-- 1666 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1666</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Great Fire of London</h3>
+          <p class="text-sm text-muted-foreground mt-1">Fire destroys much of the medieval city.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1666</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Great Fire of London</h3>
+          <p class="text-sm text-muted-foreground mt-1">Fire destroys much of the medieval city.</p>
+        </div></div>
+      </div>
+
+      <!-- 1688 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1688</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Glorious Revolution</h3>
+          <p class="text-sm text-muted-foreground mt-1">William of Orange invades; constitutional monarchy established.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1688</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Tudor & Stuart</span>
+          </div>
+          <h3 class="font-serif text-foreground">Glorious Revolution</h3>
+          <p class="text-sm text-muted-foreground mt-1">William of Orange invades; constitutional monarchy established.</p>
+        </div></div>
+      </div>
+
+      <!-- 1707 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1707</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Acts of Union</h3>
+          <p class="text-sm text-muted-foreground mt-1">England and Scotland unite as Great Britain.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1707</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Acts of Union</h3>
+          <p class="text-sm text-muted-foreground mt-1">England and Scotland unite as Great Britain.</p>
+        </div></div>
+      </div>
+
+      <!-- 1759 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1759</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Annus Mirabilis</h3>
+          <p class="text-sm text-muted-foreground mt-1">Decisive British victories in the Seven Years' War.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1759</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Annus Mirabilis</h3>
+          <p class="text-sm text-muted-foreground mt-1">Decisive British victories in the Seven Years' War.</p>
+        </div></div>
+      </div>
+
+      <!-- 1776 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1776</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">American Declaration</h3>
+          <p class="text-sm text-muted-foreground mt-1">Thirteen American colonies declare independence.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1776</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">American Declaration</h3>
+          <p class="text-sm text-muted-foreground mt-1">Thirteen American colonies declare independence.</p>
+        </div></div>
+      </div>
+
+      <!-- 1783 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1783</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Treaty of Paris</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain recognizes American independence.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1783</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Treaty of Paris</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain recognizes American independence.</p>
+        </div></div>
+      </div>
+
+      <!-- 1805 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1805</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Trafalgar</h3>
+          <p class="text-sm text-muted-foreground mt-1">Nelson defeats the French and Spanish fleets.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1805</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Trafalgar</h3>
+          <p class="text-sm text-muted-foreground mt-1">Nelson defeats the French and Spanish fleets.</p>
+        </div></div>
+      </div>
+
+      <!-- 1815 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1815</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Waterloo</h3>
+          <p class="text-sm text-muted-foreground mt-1">Wellington defeats Napoleon, ending the Napoleonic Wars.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1815</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Waterloo</h3>
+          <p class="text-sm text-muted-foreground mt-1">Wellington defeats Napoleon, ending the Napoleonic Wars.</p>
+        </div></div>
+      </div>
+
+      <!-- 1832 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1832</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Great Reform Act</h3>
+          <p class="text-sm text-muted-foreground mt-1">First major parliamentary reform.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1832</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Great Reform Act</h3>
+          <p class="text-sm text-muted-foreground mt-1">First major parliamentary reform.</p>
+        </div></div>
+      </div>
+
+      <!-- 1833 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1833</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Abolition of Slavery</h3>
+          <p class="text-sm text-muted-foreground mt-1">Slavery abolished throughout the British Empire.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1833</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Abolition of Slavery</h3>
+          <p class="text-sm text-muted-foreground mt-1">Slavery abolished throughout the British Empire.</p>
+        </div></div>
+      </div>
+
+      <!-- 1837 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1837</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Victoria becomes Queen</h3>
+          <p class="text-sm text-muted-foreground mt-1">The eighteen-year-old ascends the throne.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1837</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Victoria becomes Queen</h3>
+          <p class="text-sm text-muted-foreground mt-1">The eighteen-year-old ascends the throne.</p>
+        </div></div>
+      </div>
+
+      <!-- 1851 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1851</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">The Great Exhibition</h3>
+          <p class="text-sm text-muted-foreground mt-1">Crystal Palace showcases British industrial supremacy.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1851</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">The Great Exhibition</h3>
+          <p class="text-sm text-muted-foreground mt-1">Crystal Palace showcases British industrial supremacy.</p>
+        </div></div>
+      </div>
+
+      <!-- 1876 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1876</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Empress of India</h3>
+          <p class="text-sm text-muted-foreground mt-1">Victoria proclaimed Empress of India.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1876</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Georgian & Victorian</span>
+          </div>
+          <h3 class="font-serif text-foreground">Empress of India</h3>
+          <p class="text-sm text-muted-foreground mt-1">Victoria proclaimed Empress of India.</p>
+        </div></div>
+      </div>
+
+      <!-- 1901 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1901</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Death of Victoria</h3>
+          <p class="text-sm text-muted-foreground mt-1">End of the Victorian era; Edward VII ascends.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1901</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Death of Victoria</h3>
+          <p class="text-sm text-muted-foreground mt-1">End of the Victorian era; Edward VII ascends.</p>
+        </div></div>
+      </div>
+
+      <!-- 1912 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1912</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Sinking of the Titanic</h3>
+          <p class="text-sm text-muted-foreground mt-1">The unsinkable liner sinks on its maiden voyage.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1912</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Sinking of the Titanic</h3>
+          <p class="text-sm text-muted-foreground mt-1">The unsinkable liner sinks on its maiden voyage.</p>
+        </div></div>
+      </div>
+
+      <!-- 1914 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1914</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">World War I begins</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain enters the Great War.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1914</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">World War I begins</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain enters the Great War.</p>
+        </div></div>
+      </div>
+
+      <!-- 1918 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1918</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Armistice</h3>
+          <p class="text-sm text-muted-foreground mt-1">World War I ends; women gain limited suffrage.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1918</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Armistice</h3>
+          <p class="text-sm text-muted-foreground mt-1">World War I ends; women gain limited suffrage.</p>
+        </div></div>
+      </div>
+
+      <!-- 1928 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1928</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Equal Franchise Act</h3>
+          <p class="text-sm text-muted-foreground mt-1">All women over 21 gain the vote.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1928</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Equal Franchise Act</h3>
+          <p class="text-sm text-muted-foreground mt-1">All women over 21 gain the vote.</p>
+        </div></div>
+      </div>
+
+      <!-- 1940 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1940</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Britain</h3>
+          <p class="text-sm text-muted-foreground mt-1">RAF repels Luftwaffe attacks, preventing Nazi invasion.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1940</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Battle of Britain</h3>
+          <p class="text-sm text-muted-foreground mt-1">RAF repels Luftwaffe attacks, preventing Nazi invasion.</p>
+        </div></div>
+      </div>
+
+      <!-- 1945 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1945</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">End of World War II</h3>
+          <p class="text-sm text-muted-foreground mt-1">Labour wins landslide; welfare state begins.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1945</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">End of World War II</h3>
+          <p class="text-sm text-muted-foreground mt-1">Labour wins landslide; welfare state begins.</p>
+        </div></div>
+      </div>
+
+      <!-- 1947 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1947</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Indian Independence</h3>
+          <p class="text-sm text-muted-foreground mt-1">India and Pakistan gain independence from Britain.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1947</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Indian Independence</h3>
+          <p class="text-sm text-muted-foreground mt-1">India and Pakistan gain independence from Britain.</p>
+        </div></div>
+      </div>
+
+      <!-- 1948 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1948</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">NHS Founded</h3>
+          <p class="text-sm text-muted-foreground mt-1">National Health Service established, providing free healthcare.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1948</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">NHS Founded</h3>
+          <p class="text-sm text-muted-foreground mt-1">National Health Service established, providing free healthcare.</p>
+        </div></div>
+      </div>
+
+      <!-- 1952 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1952</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Elizabeth II becomes Queen</h3>
+          <p class="text-sm text-muted-foreground mt-1">Elizabeth II ascends the throne.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1952</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Elizabeth II becomes Queen</h3>
+          <p class="text-sm text-muted-foreground mt-1">Elizabeth II ascends the throne.</p>
+        </div></div>
+      </div>
+
+      <!-- 1973 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1973</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Joins the EEC</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain joins the European Economic Community.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1973</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Joins the EEC</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain joins the European Economic Community.</p>
+        </div></div>
+      </div>
+
+      <!-- 1982 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1982</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Falklands War</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain defends the Falkland Islands from Argentine invasion.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1982</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Falklands War</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain defends the Falkland Islands from Argentine invasion.</p>
+        </div></div>
+      </div>
+
+      <!-- 1997 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1997</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Labour Landslide</h3>
+          <p class="text-sm text-muted-foreground mt-1">Tony Blair's New Labour wins historic election.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">1997</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Labour Landslide</h3>
+          <p class="text-sm text-muted-foreground mt-1">Tony Blair's New Labour wins historic election.</p>
+        </div></div>
+      </div>
+
+      <!-- 2012 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2012</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">London Olympics</h3>
+          <p class="text-sm text-muted-foreground mt-1">London hosts the Summer Olympic Games.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2012</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">London Olympics</h3>
+          <p class="text-sm text-muted-foreground mt-1">London hosts the Summer Olympic Games.</p>
+        </div></div>
+      </div>
+
+      <!-- 2016 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2016</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Brexit Referendum</h3>
+          <p class="text-sm text-muted-foreground mt-1">UK votes to leave the European Union.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2016</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Brexit Referendum</h3>
+          <p class="text-sm text-muted-foreground mt-1">UK votes to leave the European Union.</p>
+        </div></div>
+      </div>
+
+      <!-- 2020 (Right) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:col-start-2 sm:pl-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2020</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">UK Leaves the EU</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain formally withdraws from the European Union.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2020</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">UK Leaves the EU</h3>
+          <p class="text-sm text-muted-foreground mt-1">Britain formally withdraws from the European Union.</p>
+        </div></div>
+      </div>
+
+      <!-- 2022 (Left) -->
+      <div class="relative grid grid-cols-1 sm:grid-cols-2 items-center w-full">
+        <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold border-2 border-background z-10 top-6"></div>
+        <div class="hidden sm:block sm:pr-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2022</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Death of Elizabeth II</h3>
+          <p class="text-sm text-muted-foreground mt-1">The longest-reigning British monarch dies; Charles III ascends.</p>
+        </div></div>
+        <div class="sm:hidden ml-12"><div class="bg-card border border-border rounded-lg p-4 hover:border-gold/30 transition-colors">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="text-gold font-serif text-lg">2022</span>
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border border-gold/30 text-gold">Modern</span>
+          </div>
+          <h3 class="font-serif text-foreground">Death of Elizabeth II</h3>
+          <p class="text-sm text-muted-foreground mt-1">The longest-reigning British monarch dies; Charles III ascends.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+<footer class="border-t border-border bg-background">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-serif text-foreground">Britannia Archive</h3>
+        <p class="mt-2 text-sm text-muted-foreground max-w-xs">A curated journey through the history of the United Kingdom, from the Norman Conquest to the modern era.</p>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">Explore</h4>
+        <ul class="mt-4 space-y-2">
+          <li><a href="medieval.html" class="text-sm text-muted-foreground hover:text-gold">Medieval Britain</a></li>
+          <li><a href="tudor-stuart.html" class="text-sm text-muted-foreground hover:text-gold">Tudor & Stuart</a></li>
+          <li><a href="georgian-victorian.html" class="text-sm text-muted-foreground hover:text-gold">Georgian & Victorian</a></li>
+          <li><a href="modern.html" class="text-sm text-muted-foreground hover:text-gold">Modern Britain</a></li>
+          <li><a href="timeline.html" class="text-sm text-muted-foreground hover:text-gold">Timeline</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">About</h4>
+        <p class="mt-4 text-sm text-muted-foreground">Crafted for those who seek to understand the forces that shaped the United Kingdom.</p>
+      </div>
+    </div>
+    <div class="mt-12 pt-8 border-t border-border text-center">
+      <p class="text-xs text-muted-foreground">Britannia Archive — A History of the United Kingdom</p>
+    </div>
+  </div>
+</footer>
+</body></html>
