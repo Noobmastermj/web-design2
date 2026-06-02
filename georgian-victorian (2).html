@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Georgian & Victorian — Britannia Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: {
+  fontFamily: { serif: ['"Instrument Serif"','Georgia','serif'], sans: ['"Work Sans"','system-ui','sans-serif'] },
+  colors: {
+    background: 'oklch(0.05 0 0)', foreground: 'oklch(0.92 0 0)',
+    card: 'oklch(0.08 0 0)', 'card-foreground': 'oklch(0.92 0 0)',
+    primary: { DEFAULT: 'oklch(0.72 0.12 85)' },
+    muted: { DEFAULT: 'oklch(0.14 0 0)', foreground: 'oklch(0.55 0 0)' },
+    border: 'oklch(0.18 0 0)',
+    gold: { DEFAULT: 'oklch(0.72 0.12 85)' },
+  },
+}}};
+</script>
+<style>
+  body{background:oklch(0.05 0 0);color:oklch(0.92 0 0);font-family:"Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,h5,h6{font-family:"Instrument Serif",Georgia,serif;font-weight:400;}
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-xl font-serif tracking-tight text-foreground">Britannia</span>
+        <span class="text-gold text-xs font-sans tracking-widest uppercase">Archive</span>
+      </a>
+      
+      <!-- Desktop Navigation (Hidden on Mobile/Tablet) -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium transition-colors hover:text-foreground">Home</a>
+        <a href="medieval.html" class="text-sm font-medium transition-colors hover:text-foreground">Medieval</a>
+        <a href="tudor-stuart.html" class="text-sm font-medium transition-colors hover:text-foreground">Tudor & Stuart</a>
+        <a href="georgian-victorian.html" class="text-sm font-medium transition-colors hover:text-foreground">Georgian & Victorian</a>
+        <a href="modern.html" class="text-sm font-medium transition-colors hover:text-foreground">Modern</a>
+        <a href="timeline.html" class="text-sm font-medium transition-colors hover:text-foreground">Timeline</a>
+        <a href="search.html" class="text-sm font-medium transition-colors hover:text-foreground">Search</a>
+        <a href="ask.html" class="text-sm font-medium transition-colors hover:text-foreground">Ask</a>
+        <a href="quiz.html" class="text-sm font-medium transition-colors hover:text-foreground">Quiz</a>
+      </nav>
+
+      <!-- Mobile/Tablet Toggle Button (Visible only below 'md' breakpoint) -->
+      <div class="flex md:hidden">
+        <button id="mobile-menu-btn" type="button" class="text-muted-foreground hover:text-foreground focus:outline-none" aria-label="Toggle Menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu (Hidden by default, styled for dark theme integration) -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+    <div class="space-y-1 px-4 pb-6 pt-3">
+      <a href="index.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Home</a>
+      <a href="medieval.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Medieval</a>
+      <a href="tudor-stuart.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Tudor & Stuart</a>
+      <a href="georgian-victorian.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Georgian & Victorian</a>
+      <a href="modern.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Modern</a>
+      <a href="timeline.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Timeline</a>
+    </div>
+  </div>
+
+  <!-- Client-Side Menu & Navigation Helper -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeIcon = document.getElementById('close-icon');
+
+      // 1. Mobile Menu Open/Close Toggle
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          const isMenuHidden = mobileMenu.classList.contains('hidden');
+          if (isMenuHidden) {
+            mobileMenu.classList.remove('hidden');
+            hamburgerIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+          } else {
+            mobileMenu.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          }
+        });
+      }
+
+      // 2. Automated Active Link Detection & Highlighting
+      const currentFilename = window.location.pathname.split('/').pop() || 'index.html';
+      const allNavigationLinks = document.querySelectorAll('header nav a, #mobile-menu a');
+
+      allNavigationLinks.forEach(link => {
+        const linkDestination = link.getAttribute('href');
+        if (linkDestination === currentFilename) {
+          link.classList.add('text-gold');
+          link.classList.remove('text-muted-foreground');
+        } else {
+          link.classList.add('text-muted-foreground');
+          link.classList.remove('text-gold');
+        }
+      });
+    });
+  </script>
+</header>
+
+<main class="flex-1 pt-16">
+<section class="relative">
+  <div class="h-[50vh] min-h-[400px] relative overflow-hidden">
+    <img src="assets/georgian-era.jpg" alt="Georgian Era Background" class="w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/20"></div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 pb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <h1 id="page-title" class="text-4xl sm:text-5xl lg:text-6xl font-serif text-foreground">Loading...</h1>
+    </div>
+  </div>
+</section>
+
+<article id="dynamic-page-content" class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
+  <p class="text-muted-foreground text-center animate-pulse">Loading historical records...</p>
+</article>
+
+<section class="border-t border-border bg-card/10">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
+    <div class="mb-10">
+      <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-2">From the Archive</p>
+      <h2 class="text-2xl sm:text-3xl font-serif text-foreground">Archive Articles</h2>
+    </div>
+    <div id="archive-articles" class="grid gap-6 sm:grid-cols-2"></div>
+  </div>
+</section>
+</main>
+
+<footer class="border-t border-border bg-background">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-serif text-foreground">Britannia Archive</h3>
+        <p class="mt-2 text-sm text-muted-foreground max-w-xs">A curated journey through the history of the United Kingdom, from the Norman Conquest to the modern era.</p>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">Explore</h4>
+        <ul class="mt-4 space-y-2">
+          <li><a href="medieval.html" class="text-sm text-muted-foreground hover:text-gold">Medieval Britain</a></li>
+          <li><a href="tudor-stuart.html" class="text-sm text-muted-foreground hover:text-gold">Tudor & Stuart</a></li>
+          <li><a href="georgian-victorian.html" class="text-sm text-muted-foreground hover:text-gold">Georgian & Victorian</a></li>
+          <li><a href="modern.html" class="text-sm text-muted-foreground hover:text-gold">Modern Britain</a></li>
+          <li><a href="timeline.html" class="text-sm text-muted-foreground hover:text-gold">Timeline</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">About</h4>
+        <p class="mt-4 text-sm text-muted-foreground">Crafted for those who seek to understand the forces that shaped the United Kingdom.</p>
+      </div>
+    </div>
+    <div class="mt-12 pt-8 border-t border-border text-center">
+      <p class="text-xs text-muted-foreground">Britannia Archive — A History of the United Kingdom</p>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+  const supabase = createClient('https://yhxswwoelahkvkwgwarc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHN3d29lbGFoa3Zrd2d3YXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NjQ5MTAsImV4cCI6MjA5NTI0MDkxMH0.xNucx3QZQCgonysDFspXEs6Ek6Ctss7hL0QNrR-43uM');
+
+  // Fetch Main Page Data
+  (async () => {
+    const { data: page, error } = await supabase.from('pages').select('*').eq('slug', 'georgian-victorian').single();
+    if (page && document.getElementById('dynamic-page-content')) {
+      document.getElementById('page-title').innerText = page.title;
+      document.getElementById('dynamic-page-content').innerHTML = `
+        <p class="text-xl text-muted-foreground leading-relaxed font-light">${page.intro_text}</p>
+        <div class="mt-16 text-muted-foreground leading-relaxed space-y-6">${page.main_content}</div>
+      `;
+    }
+  })();
+
+  // Fetch Era Articles
+  (async () => {
+    const container = document.getElementById('archive-articles');
+    const { data, error } = await supabase.from('articles').select('*').ilike('era', '%Georgian%').order('created_at', { ascending: false });
+    if (data) {
+      container.innerHTML = data.map(a => {
+        const plain = (a.content || '').replace(/<[^>]+>/g, '');
+        const words = plain.split(/\s+/).filter(Boolean).length;
+        const mins = Math.max(1, Math.round(words / 200));
+        return `
+        <a href="article.html?id=${a.id}" class="block bg-card border border-border rounded-lg p-6 hover:border-gold/40 transition-all duration-300 group">
+          <p class="text-gold text-[10px] font-sans uppercase tracking-[0.2em] mb-2">${a.era || ''}</p>
+          <h3 class="font-serif text-xl text-foreground mb-3 group-hover:text-gold transition-colors">${a.title}</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed">${plain.slice(0, 200)}${plain.length > 200 ? '…' : ''}</p>
+          <p class="text-xs text-muted-foreground/50 mt-3">${mins} min read</p>
+        </a>`;
+      }).join('');
+    }
+  })();
+</script>
+</body>
+</html>

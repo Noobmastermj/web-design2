@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Britannia Archive — History of the United Kingdom</title>
+<meta name="description" content="A curated journey through the history of the United Kingdom, from the Norman Conquest to the modern era." />
+<meta property="og:title" content="Britannia Archive — History of the United Kingdom" />
+<meta property="og:description" content="A curated journey through the history of the United Kingdom, from the Norman Conquest to the modern era." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: {
+  fontFamily: { serif: ['"Instrument Serif"','Georgia','serif'], sans: ['"Work Sans"','system-ui','sans-serif'] },
+  colors: {
+    background: 'oklch(0.05 0 0)', foreground: 'oklch(0.92 0 0)',
+    card: 'oklch(0.08 0 0)', 'card-foreground': 'oklch(0.92 0 0)',
+    primary: { DEFAULT: 'oklch(0.72 0.12 85)', foreground: 'oklch(0.05 0 0)' },
+    muted: { DEFAULT: 'oklch(0.14 0 0)', foreground: 'oklch(0.55 0 0)' },
+    border: 'oklch(0.18 0 0)', input: 'oklch(0.18 0 0)',
+    gold: { DEFAULT: 'oklch(0.72 0.12 85)', light: 'oklch(0.88 0.10 85)', dark: 'oklch(0.60 0.10 85)' },
+  },
+}}};
+</script>
+<style>
+  body{background:oklch(0.05 0 0);color:oklch(0.92 0 0);font-family:"Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,h5,h6{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-0.01em}
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes shimmer { 0%{opacity:0.4} 50%{opacity:0.7} 100%{opacity:0.4} }
+  .skeleton { animation: shimmer 1.6s ease infinite; background: oklch(0.12 0 0); border-radius: 4px; }
+
+  /* Search bar */
+  #hero-search {
+    background: oklch(0.08 0 0 / 0.9);
+    border: 1px solid oklch(0.25 0 0);
+    color: oklch(0.92 0 0);
+    border-radius: 6px;
+    caret-color: oklch(0.72 0.12 85);
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s;
+    font-family: "Work Sans", sans-serif;
+  }
+  #hero-search:focus { outline: none; border-color: oklch(0.72 0.12 85 / 0.6); }
+  #hero-search::placeholder { color: oklch(0.45 0 0); }
+
+  /* On This Day card pulse on load */
+  @keyframes otdFade { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  #otd-content { animation: otdFade 0.5s 0.3s ease both; }
+
+  /* Feature cards */
+  .feature-card {
+    border: 1px solid oklch(0.18 0 0);
+    background: oklch(0.08 0 0);
+    border-radius: 10px;
+    transition: all 0.22s;
+    text-decoration: none;
+    display: block;
+  }
+  .feature-card:hover {
+    border-color: oklch(0.72 0.12 85 / 0.45);
+    transform: translateY(-2px);
+    background: oklch(0.09 0 0);
+  }
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="text-xl font-serif tracking-tight text-foreground">Britannia</span>
+        <span class="text-gold text-xs font-sans tracking-widest uppercase">Archive</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium transition-colors hover:text-foreground">Home</a>
+        <a href="medieval.html" class="text-sm font-medium transition-colors hover:text-foreground">Medieval</a>
+        <a href="tudor-stuart.html" class="text-sm font-medium transition-colors hover:text-foreground">Tudor & Stuart</a>
+        <a href="georgian-victorian.html" class="text-sm font-medium transition-colors hover:text-foreground">Georgian & Victorian</a>
+        <a href="modern.html" class="text-sm font-medium transition-colors hover:text-foreground">Modern</a>
+        <a href="timeline.html" class="text-sm font-medium transition-colors hover:text-foreground">Timeline</a>
+      </nav>
+      <div class="flex items-center gap-3 md:hidden">
+        <a href="search.html" class="text-muted-foreground hover:text-foreground">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg>
+        </a>
+        <button id="mobile-menu-btn" type="button" class="text-muted-foreground hover:text-foreground focus:outline-none" aria-label="Toggle Menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+    <div class="space-y-1 px-4 pb-6 pt-3">
+      <a href="index.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Home</a>
+      <a href="medieval.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Medieval</a>
+      <a href="tudor-stuart.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Tudor & Stuart</a>
+      <a href="georgian-victorian.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Georgian & Victorian</a>
+      <a href="modern.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Modern</a>
+      <a href="timeline.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card">Timeline</a>
+      <div class="border-t border-border mt-3 pt-3">
+        <a href="search.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card text-muted-foreground">🔍 Search</a>
+        <a href="ask.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card text-muted-foreground">💬 Ask the Archive</a>
+        <a href="quiz.html" class="block rounded-md py-2 px-3 text-base font-medium transition-colors hover:bg-card text-muted-foreground">📜 Quiz</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeIcon = document.getElementById('close-icon');
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          const isHidden = mobileMenu.classList.contains('hidden');
+          mobileMenu.classList.toggle('hidden', !isHidden);
+          hamburgerIcon.classList.toggle('hidden', isHidden);
+          closeIcon.classList.toggle('hidden', !isHidden);
+        });
+      }
+      const currentFilename = window.location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('header nav a, #mobile-menu a').forEach(link => {
+        const dest = link.getAttribute('href');
+        link.classList.toggle('text-gold', dest === currentFilename);
+        link.classList.toggle('text-muted-foreground', dest !== currentFilename);
+      });
+    });
+  </script>
+</header>
+
+<main class="flex-1 pt-16">
+
+<!-- ── HERO ── -->
+<section class="relative min-h-[85vh] flex items-end">
+  <div class="absolute inset-0">
+    <img src="assets/hero-castle.jpg" alt="Medieval castle at golden hour" class="w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+  </div>
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20 pt-32">
+    <div class="max-w-3xl">
+      <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-4">A Thousand Years of History</p>
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-serif text-foreground leading-[1.1]">History of the <span class="italic text-gold">United Kingdom</span></h1>
+      <p class="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">From the Norman Conquest to the modern age — explore the events, people, and forces that shaped a nation.</p>
+
+      <!-- Search bar -->
+      <div class="mt-8 relative max-w-lg">
+        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+        </svg>
+        <input id="hero-search" type="text" placeholder="Search the archive…" class="w-full pl-11 pr-4 py-3.5 text-sm" />
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="timeline.html" class="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">View Timeline</a>
+        <a href="medieval.html" class="inline-flex items-center rounded-md border border-gold/30 px-6 py-3 text-sm font-medium text-gold hover:bg-gold/10 transition-colors">Start Exploring</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ON THIS DAY + FEATURE SHORTCUTS ── -->
+<section class="border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- On This Day -->
+      <div class="lg:col-span-2 bg-card/50 border border-border rounded-xl p-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-1 h-full bg-gold rounded-l-xl"></div>
+        <div class="pl-2">
+          <p class="text-gold text-[10px] font-sans uppercase tracking-[0.3em] mb-1">On This Day</p>
+          <p id="otd-date" class="text-xs text-muted-foreground mb-4 font-sans"></p>
+          <div id="otd-content">
+            <div class="skeleton h-5 w-3/4 mb-3"></div>
+            <div class="skeleton h-4 w-full mb-2"></div>
+            <div class="skeleton h-4 w-5/6"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature shortcuts -->
+      <div class="flex flex-col gap-3">
+        <a href="ask.html" class="feature-card p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center text-gold text-lg flex-shrink-0">💬</div>
+          <div>
+            <p class="text-sm font-medium text-foreground">Ask the Archive</p>
+            <p class="text-xs text-muted-foreground mt-0.5">AI historian powered by Claude</p>
+          </div>
+        </a>
+        <a href="quiz.html" class="feature-card p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center text-gold text-lg flex-shrink-0">📜</div>
+          <div>
+            <p class="text-sm font-medium text-foreground">History Quiz</p>
+            <p class="text-xs text-muted-foreground mt-0.5">Test your knowledge by era</p>
+          </div>
+        </a>
+        <a href="search.html" class="feature-card p-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center text-gold text-lg flex-shrink-0">🔍</div>
+          <div>
+            <p class="text-sm font-medium text-foreground">Search Articles</p>
+            <p class="text-xs text-muted-foreground mt-0.5">Full-text search the archive</p>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ERA CARDS (original) ── -->
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+  <div class="mb-10">
+    <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-2">Browse by Era</p>
+    <h2 class="text-3xl sm:text-4xl font-serif text-foreground">Explore the Archive</h2>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <a href="medieval.html" class="group relative overflow-hidden rounded-lg bg-card border border-border hover:border-gold/40 transition-all duration-500 block">
+      <div class="aspect-[16/9] overflow-hidden">
+        <img src="assets/medieval-era.jpg" alt="Medieval Britain" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 p-5">
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.2em] mb-1">1066 — 1485</p>
+        <h3 class="text-xl font-serif text-foreground group-hover:text-gold-light transition-colors">Medieval Britain</h3>
+        <p class="mt-1 text-sm text-muted-foreground line-clamp-2 leading-relaxed">The Norman Conquest reshapes England. Feudalism, the Black Death, and the Plantagenet kings define an era of transformation.</p>
+      </div>
+    </a>
+    <a href="tudor-stuart.html" class="group relative overflow-hidden rounded-lg bg-card border border-border hover:border-gold/40 transition-all duration-500 block">
+      <div class="aspect-[16/9] overflow-hidden">
+        <img src="assets/tudor-era.jpg" alt="Tudor & Stuart" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 p-5">
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.2em] mb-1">1485 — 1714</p>
+        <h3 class="text-xl font-serif text-foreground group-hover:text-gold-light transition-colors">Tudor & Stuart</h3>
+        <p class="mt-1 text-sm text-muted-foreground line-clamp-2 leading-relaxed">The Reformation, the English Civil War, and the Glorious Revolution — an age of religious upheaval and political transformation.</p>
+      </div>
+    </a>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <a href="georgian-victorian.html" class="group relative overflow-hidden rounded-lg bg-card border border-border hover:border-gold/40 transition-all duration-500 block">
+      <div class="aspect-[16/9] overflow-hidden">
+        <img src="assets/georgian-era.jpg" alt="Georgian & Victorian" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 p-5">
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.2em] mb-1">1714 — 1901</p>
+        <h3 class="text-xl font-serif text-foreground group-hover:text-gold-light transition-colors">Georgian & Victorian</h3>
+        <p class="mt-1 text-sm text-muted-foreground line-clamp-2 leading-relaxed">The Industrial Revolution transforms a nation. Parliamentary reform, scientific discovery, and the height of the British Empire.</p>
+      </div>
+    </a>
+    <a href="modern.html" class="group relative overflow-hidden rounded-lg bg-card border border-border hover:border-gold/40 transition-all duration-500 block">
+      <div class="aspect-[16/9] overflow-hidden">
+        <img src="assets/modern-era.jpg" alt="Modern Britain" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 p-5">
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.2em] mb-1">1901 — Present</p>
+        <h3 class="text-xl font-serif text-foreground group-hover:text-gold-light transition-colors">Modern Britain</h3>
+        <p class="mt-1 text-sm text-muted-foreground line-clamp-2 leading-relaxed">Two world wars, the welfare state, and a changing world. From imperial power to modern democracy in a global age.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── LATEST ARTICLES ── -->
+<section class="border-t border-border bg-card/10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <p class="text-gold text-xs font-sans uppercase tracking-[0.3em] mb-2">From the Archive</p>
+        <h2 class="text-3xl sm:text-4xl font-serif text-foreground">Latest Articles</h2>
+        <p class="mt-2 text-sm text-muted-foreground">Recent contributions from historians and researchers.</p>
+      </div>
+      <a href="search.html" class="hidden sm:flex items-center gap-2 text-xs text-muted-foreground hover:text-gold transition-colors font-sans uppercase tracking-widest">
+        All articles →
+      </a>
+    </div>
+    <div id="archive-articles" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <div class="mt-8 text-center sm:hidden">
+      <a href="search.html" class="text-sm text-gold hover:text-gold-light transition-colors">Browse all articles →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ── -->
+<section class="border-t border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
+    <div class="max-w-3xl mx-auto text-center">
+      <blockquote class="text-2xl sm:text-3xl font-serif italic text-foreground leading-relaxed">"The farther backward you can look, the farther forward you are likely to see."</blockquote>
+      <cite class="mt-6 block text-sm text-gold not-italic uppercase tracking-widest font-sans">— Winston Churchill</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<section class="border-t border-border bg-card/30">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="text-center"><p class="text-3xl sm:text-4xl font-serif text-gold">1066</p><p class="mt-1 text-xs uppercase tracking-widest text-muted-foreground font-sans">Norman Conquest</p></div>
+      <div class="text-center"><p class="text-3xl sm:text-4xl font-serif text-gold">1215</p><p class="mt-1 text-xs uppercase tracking-widest text-muted-foreground font-sans">Magna Carta</p></div>
+      <div class="text-center"><p class="text-3xl sm:text-4xl font-serif text-gold">1707</p><p class="mt-1 text-xs uppercase tracking-widest text-muted-foreground font-sans">Acts of Union</p></div>
+      <div class="text-center"><p class="text-3xl sm:text-4xl font-serif text-gold">1945</p><p class="mt-1 text-xs uppercase tracking-widest text-muted-foreground font-sans">End of WWII</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-border bg-background">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-lg font-serif text-foreground">Britannia Archive</h3>
+        <p class="mt-2 text-sm text-muted-foreground max-w-xs">A curated journey through the history of the United Kingdom, from the Norman Conquest to the modern era.</p>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">Explore</h4>
+        <ul class="mt-4 space-y-2">
+          <li><a href="medieval.html" class="text-sm text-muted-foreground hover:text-gold">Medieval Britain</a></li>
+          <li><a href="tudor-stuart.html" class="text-sm text-muted-foreground hover:text-gold">Tudor & Stuart</a></li>
+          <li><a href="georgian-victorian.html" class="text-sm text-muted-foreground hover:text-gold">Georgian & Victorian</a></li>
+          <li><a href="modern.html" class="text-sm text-muted-foreground hover:text-gold">Modern Britain</a></li>
+          <li><a href="timeline.html" class="text-sm text-muted-foreground hover:text-gold">Timeline</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">Features</h4>
+        <ul class="mt-4 space-y-2">
+          <li><a href="search.html" class="text-sm text-muted-foreground hover:text-gold">Search the Archive</a></li>
+          <li><a href="ask.html" class="text-sm text-muted-foreground hover:text-gold">Ask the Archive</a></li>
+          <li><a href="quiz.html" class="text-sm text-muted-foreground hover:text-gold">History Quiz</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-foreground uppercase tracking-widest">About</h4>
+        <p class="mt-4 text-sm text-muted-foreground">Crafted for those who seek to understand the forces that shaped the United Kingdom.</p>
+      </div>
+    </div>
+    <div class="mt-12 pt-8 border-t border-border text-center">
+      <p class="text-xs text-muted-foreground">Britannia Archive — A History of the United Kingdom</p>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const supabase = createClient(
+  'https://yhxswwoelahkvkwgwarc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHN3d29lbGFoa3Zrd2d3YXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NjQ5MTAsImV4cCI6MjA5NTI0MDkxMH0.xNucx3QZQCgonysDFspXEs6Ek6Ctss7hL0QNrR-43uM'
+);
+
+// ── HERO SEARCH ──
+const heroSearch = document.getElementById('hero-search');
+heroSearch.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && heroSearch.value.trim()) {
+    window.location.href = `search.html?q=${encodeURIComponent(heroSearch.value.trim())}`;
+  }
+});
+
+// ── ON THIS DAY ──
+(async () => {
+  const now = new Date();
+  const month = now.toLocaleString('en-GB', { month: 'long' });
+  const day = now.getDate();
+  document.getElementById('otd-date').textContent =
+    now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'You are a British historian. Return ONLY valid JSON, no markdown, no extra text.',
+        messages: [{
+          role: 'user',
+          content: `Give me one notable historical event from British history that happened on ${month} ${day} (any year). Return ONLY this JSON: {"year":"...","title":"...","description":"..."} where description is 2 sentences maximum.`
+        }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const event = JSON.parse(raw);
+    document.getElementById('otd-content').innerHTML = `
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="font-serif text-2xl text-gold">${event.year}</span>
+        <h3 class="font-serif text-lg text-foreground">${event.title}</h3>
+      </div>
+      <p class="text-sm text-muted-foreground leading-relaxed">${event.description}</p>
+      <a href="ask.html" class="inline-flex items-center gap-1 mt-4 text-xs text-gold hover:text-gold-light transition-colors font-sans">
+        Ask the Archive about this →
+      </a>`;
+  } catch (e) {
+    document.getElementById('otd-content').innerHTML =
+      `<p class="text-sm text-muted-foreground italic">Historical events unavailable at this time.</p>`;
+  }
+})();
+
+// ── LATEST ARTICLES ──
+function readTime(text) {
+  const words = (text || '').replace(/<[^>]+>/g,'').split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 200))} min read`;
+}
+
+(async () => {
+  const container = document.getElementById('archive-articles');
+  container.innerHTML = `<div class="skeleton h-32 rounded-lg"></div>`.repeat(6).replace(/rounded-lg/g, 'rounded-lg col-span-1');
+
+  const { data, error } = await supabase
+    .from('articles').select('*')
+    .order('created_at', { ascending: false }).limit(6);
+
+  if (error) { container.innerHTML = `<p class="text-red-400 text-sm">${error.message}</p>`; return; }
+  if (!data.length) { container.innerHTML = '<p class="text-muted-foreground text-sm italic">No articles yet.</p>'; return; }
+
+  container.innerHTML = data.map((a, i) => `
+    <a href="article.html?id=${a.id}" class="block bg-card border border-border rounded-lg p-6 hover:border-gold/40 transition-all duration-300 group" style="animation: fadeIn 0.4s ease ${i * 0.07}s both">
+      <p class="text-gold text-[10px] font-sans uppercase tracking-[0.2em] mb-2">${a.era || ''}</p>
+      <h3 class="font-serif text-xl text-foreground mb-3 group-hover:text-gold-light transition-colors">${a.title}</h3>
+      <p class="text-sm text-muted-foreground leading-relaxed line-clamp-3">${(a.content || '').replace(/<[^>]+>/g,'').slice(0,200)}${(a.content||'').length > 200 ? '…' : ''}</p>
+      <div class="flex items-center gap-3 mt-4">
+        <span class="text-xs text-muted-foreground/50">${new Date(a.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>
+        <span class="text-border text-xs">·</span>
+        <span class="text-xs text-muted-foreground/50">${readTime(a.content)}</span>
+      </div>
+    </a>`).join('');
+})();
+</script>
+</body>
+</html>
